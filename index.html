@@ -1145,6 +1145,12 @@ useEffect(() => {
                   return;
               }
 
+              const primaryAssignedList = patientAssignments['primary'] || [];
+          if (primaryAssignedList.length === 0) {
+              setToastMessage("⚠️ Primary Member must have at least one test assigned.");
+              setTimeout(() => setToastMessage(''), 3500);
+              return;
+          }
               for (let i = 0; i < familyMembers.length; i++) {
                   const m = familyMembers[i];
                   if (!m.name || !m.age || !m.gender) {
