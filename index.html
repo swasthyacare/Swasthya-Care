@@ -444,7 +444,7 @@
           const [bookings, setBookings] = useState([]);
           const [lastBooking, setLastBooking] = useState(null);
           
-          const CART_EXPIRY_LIMIT = 24 * 60 * 60 * 1000; 
+          const CART_EXPIRY_LIMIT = 60 * 60 * 1000; 
 
 const [cart, setCart] = useState(() => {
     const savedCart = localStorage.getItem('swasthya_cart_v10');
