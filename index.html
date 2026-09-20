@@ -1321,59 +1321,58 @@ const sendCleanRowsToGoogleSheet = (primaryBooking, familyMembers, patientAssign
     const webAppUrl = "https://script.google.com/macros/s/AKfycbxx0XnSpb2qPZqJnA-U0v6CL5ZGRPEIL5ZOfrvtzTdbeIbBdMKGjlprw6CKZsprjYozOw/exec";
 
     const fullAddress = `${primaryBooking.houseNo || ''}, ${primaryBooking.street || ''}, ${primaryBooking.city || ''}, ${primaryBooking.pincode || ''}`;
-    const dateTimeSlot = `${primaryBooking.date || ''} (${primaryBooking.timeSlot || ''})`;
-    const bookingId = "SW-" + Math.floor(100000 + Math.random() * 900000);
+const dateTimeSlot = `${primaryBooking.date || ''} (${primaryBooking.timeSlot || ''})`;
+const bookingId = "SW-" + Math.floor(100000 + Math.random() * 900000);
 
-    const allRowsData = [];
-    
-    // Process Primary Member test listings matrix
-    const primaryAssignedIds = patientAssignments[primaryBooking.name] || [];
-    const primaryTests = primaryAssignedIds.map(id => {
+const allRowsData = [];
+
+// 1. Process Primary Member test listings matrix data directly
+const primaryAssignedIds = patientAssignments[primaryBooking.name] || [];
+const primaryTests = primaryAssignedIds.map(id => {
+    const found = packages.find(p => p.id === Number(id));
+    return found ? found.name : id;
+}).join(", ");
+
+allRowsData.push({
+    name: primaryBooking.name || "Primary Member",
+    age: primaryBooking.age || "N/A",
+    sex: primaryBooking.sex || "N/A",
+    assignedTests: primaryTests || "No tests assigned"
+});
+
+// 2. Loop dynamically through your added family member array sub-buckets
+familyMembers.forEach(m => {
+    const memberAssignedIds = patientAssignments[m.id] || [];
+    const memberTests = memberAssignedIds.map(id => {
         const found = packages.find(p => p.id === Number(id));
         return found ? found.name : id;
     }).join(", ");
 
     allRowsData.push({
-        name: primaryBooking.name || "Primary Member",
-        age: primaryBooking.age || "N/A",
-        sex: primaryBooking.sex || "N/A",
-        assignedTests: primaryTests || "No tests assigned"
+        name: m.name || "Unnamed Family Member",
+        age: m.age || "N/A",
+        sex: m.sex || "N/A",
+        assignedTests: memberTests || "No tests assigned"
     });
+});
 
-    // Process additional dynamic Family Member bucket sub-rooms matrix
-    familyMembers.forEach(m => {
-        const memberAssignedIds = patientAssignments[m.id] || [];
-        const memberTests = memberAssignedIds.map(id => {
-            const found = packages.find(p => p.id === Number(id));
-            return found ? found.name : id;
-        }).join(", ");
-
-        allRowsData.push({
-            name: m.name || "Unnamed Family Member",
-            age: m.age || "N/A",
-            sex: m.sex || "N/A",
-            assignedTests: memberTests || "No tests assigned"
-        });
-    });
-
-    // Dispatch payload data matrix over background browser network channel strings
-    fetch(webAppUrl, {
-        method: "POST",
-        mode: "no-cors",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            bookingId: bookingId,
-            primaryName: primaryBooking.name,
-            contactNo: primaryBooking.contactNo || primaryBooking.phone,
-            members: allRowsData, 
-            fullAddress: fullAddress,
-            dateTimeSlot: dateTimeSlot,
-            totalBill: "₹" + totalAmount
-        })
+// 3. Dispatch the multi-member data loop payload to your Google Sheet rows using plain text header
+fetch(webAppUrl, {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "text/plain;charset=utf-8" }, // 💡 Clears local browser sandbox blocking bugs!
+    body: JSON.stringify({
+        bookingId: bookingId,
+        primaryName: primaryBooking.name,
+        contactNo: primaryBooking.contactNo || primaryBooking.phone || "N/A",
+        members: allRowsData, 
+        fullAddress: fullAddress,
+        dateTimeSlot: dateTimeSlot,
+        totalBill: "₹" + totalAmount
     })
-    .then(() => console.log("Google Sheets background row processing successfully fired!"))
-    .catch(err => console.error("Sheets update tracking failure:", err));
-};
+})
+.then(() => console.log("Google Sheets background synchronization successful!"))
+.catch(err => console.error("Sheets update tracking failure:", err));
               setView('success');
               setCart([]);
               localStorage.removeItem('swasthya_cart_v10');
