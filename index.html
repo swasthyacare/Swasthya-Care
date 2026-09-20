@@ -1373,7 +1373,7 @@ fetch(webAppUrl, {
 })
 .then(() => console.log("Google Sheets background synchronization successful!"))
 .catch(err => console.error("Sheets update tracking failure:", err));
-              setView('success');
+    {setView('success');
               setCart([]);
               localStorage.removeItem('swasthya_cart_v10');
               localStorage.removeItem('swasthya_cart_time');
