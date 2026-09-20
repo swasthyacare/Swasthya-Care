@@ -1787,27 +1787,80 @@ useEffect(() => {
                                           );
                                       })}
                               </div>
-                              {/* Quick Pagination Controls */}
-<div className="flex justify-center items-center mt-8 mb-4 space-x-6">
-    <button 
-        onClick={() => { setCurrentPage(prev => Math.max(prev - 1, 1)); window.scrollTo({ top: 400, behavior: 'smooth' }); }} 
-        disabled={currentPage === 1}
-        className="px-6 py-2.5 rounded-xl font-extrabold text-sm disabled:opacity-30 disabled:cursor-not-allowed bg-teal-900 text-yellow-400 hover:bg-teal-800 transition-colors shadow-md cursor-pointer flex items-center"
-    >
-        <Icon name="arrow" className="w-4 h-4 mr-2 transform rotate-180" /> Prev Page
-    </button>
-    
-    <span className="font-bold text-teal-900 bg-teal-50 px-4 py-2 rounded-lg border border-teal-100">
-        Page {currentPage}
-    </span>
-    
-    <button 
-        onClick={() => { setCurrentPage(prev => prev + 1); window.scrollTo({ top: 400, behavior: 'smooth' }); }} 
-        className="px-6 py-2.5 rounded-xl font-extrabold text-sm bg-teal-900 text-yellow-400 hover:bg-teal-800 transition-colors shadow-md cursor-pointer flex items-center"
-    >
-        Next Page <Icon name="arrow" className="w-4 h-4 ml-2" />
-    </button>
-</div>
+                              {/* Advanced Pagination Controls with Jump-To-Page */}
+{(() => {
+    // 1. Safely calculate total items in the background to find Total Pages
+    const totalItems = packages.filter(pkg => {
+        const typeSafe = (pkg.dealType || '').toLowerCase();
+        if (activeCategoryTab === 'atoms' && !typeSafe.includes('atom')) return false;
+        if (activeCategoryTab === 'health' && !typeSafe.includes('health')) return false;
+        if (activeCategoryTab === 'bundles' && !typeSafe.includes('bundle')) return false;
+        
+        const matchesBodyFilter = selectedBodyPartsFilter.length > 0 ? selectedBodyPartsFilter.some(part => {
+            if (pkg.bodyParts && pkg.bodyParts.includes(part)) return true;
+            const textDump = (pkg.name + " " + (pkg.includes || "") + " " + JSON.stringify(pkg.detailedParameters)).toLowerCase();
+            if (part === 'thyroid' && (textDump.includes('thyroid') || textDump.includes('tsh') || textDump.includes('t3'))) return true;
+            if (part === 'cardiovascular' && (textDump.includes('lipid') || textDump.includes('cholesterol') || textDump.includes('cardiac'))) return true;
+            if (part === 'kidney' && (textDump.includes('kft') || textDump.includes('kidney') || textDump.includes('creatinine'))) return true;
+            if (part === 'liver' && (textDump.includes('lft') || textDump.includes('liver') || textDump.includes('sgpt'))) return true;
+            if (part === 'bone' && (textDump.includes('bone') || textDump.includes('calcium') || textDump.includes('arthritis'))) return true;
+            if (part === 'blood' && (textDump.includes('cbc') || textDump.includes('hemoglobin') || textDump.includes('rbc'))) return true;
+            if (part === 'immune' && (textDump.includes('crp') || textDump.includes('hiv') || textDump.includes('hepatitis'))) return true;
+            if (part === 'metabolic' && (textDump.includes('glucose') || textDump.includes('hba1c') || textDump.includes('sugar'))) return true;
+            if (part === 'hormone' && (textDump.includes('hormone') || textDump.includes('testosterone') || textDump.includes('fsh'))) return true;
+            return false;
+        }) : true;
+
+        const matchesSearchQuery = testSearchQuery ? (() => {
+            const query = testSearchQuery.toLowerCase();
+            return pkg.name.toLowerCase().includes(query) || 
+                   (pkg.includes && pkg.includes.toLowerCase().includes(query)) || 
+                   (pkg.detailedParameters && pkg.detailedParameters.some(cat => cat.category.toLowerCase().includes(query) || (cat.items && cat.items.some(item => item.toLowerCase().includes(query)))));
+        })() : true;
+
+        const isHighlighted = activeBodyPart ? (pkg.bodyParts && pkg.bodyParts.includes(activeBodyPart)) : true;
+        return matchesBodyFilter && matchesSearchQuery && isHighlighted;
+    }).length;
+
+    // 2. Calculate pages
+    const totalPages = Math.ceil(totalItems / 50) || 1;
+
+    // 3. Draw the UI
+    return totalPages > 1 ? (
+        <div className="flex flex-col sm:flex-row justify-center items-center mt-10 mb-6 space-y-4 sm:space-y-0 sm:space-x-6 bg-white p-4 rounded-2xl shadow-sm border border-slate-200 w-fit mx-auto">
+            <button 
+                onClick={() => { setCurrentPage(prev => Math.max(prev - 1, 1)); window.scrollTo({ top: 400, behavior: 'smooth' }); }} 
+                disabled={currentPage === 1}
+                className="px-5 py-2.5 rounded-xl font-extrabold text-sm disabled:opacity-40 disabled:cursor-not-allowed bg-teal-50 text-teal-900 hover:bg-teal-100 transition-colors shadow-sm cursor-pointer flex items-center"
+            >
+                <Icon name="arrow" className="w-4 h-4 mr-2 transform rotate-180" /> Prev
+            </button>
+            
+            {/* The Dropdown allowing users to jump to any page */}
+            <div className="flex items-center space-x-2 bg-slate-50 border border-slate-200 px-4 py-2.5 rounded-xl">
+                <span className="text-sm font-bold text-slate-500">Page</span>
+                <select 
+                    value={currentPage} 
+                    onChange={(e) => { setCurrentPage(Number(e.target.value)); window.scrollTo({ top: 400, behavior: 'smooth' }); }}
+                    className="bg-white border border-teal-300 text-teal-900 font-extrabold text-sm rounded-lg px-2 py-1 outline-none cursor-pointer focus:ring-2 focus:ring-teal-500 shadow-sm"
+                >
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map(num => (
+                        <option key={num} value={num}>{num}</option>
+                    ))}
+                </select>
+                <span className="text-sm font-bold text-slate-500">of {totalPages}</span>
+            </div>
+            
+            <button 
+                onClick={() => { setCurrentPage(prev => Math.min(prev + 1, totalPages)); window.scrollTo({ top: 400, behavior: 'smooth' }); }} 
+                disabled={currentPage === totalPages}
+                className="px-5 py-2.5 rounded-xl font-extrabold text-sm disabled:opacity-40 disabled:cursor-not-allowed bg-teal-50 text-teal-900 hover:bg-teal-100 transition-colors shadow-sm cursor-pointer flex items-center"
+            >
+                Next <Icon name="arrow" className="w-4 h-4 ml-2" />
+            </button>
+        </div>
+    ) : null;
+})()}
 
                               {/* 3D Cylinder / Perspective Ring Slider for Rewards & Recognition */}
                               <div className="mt-28 mb-16">
