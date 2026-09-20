@@ -76,7 +76,7 @@ Torch-8,Organ Health,3330,982,All,"Torch-8 (8):CMV IgG Antibody Serum,CMV IgM An
 Phospholipid Antibodies (IGM & IGG) Serum Profile,Organ Health,4257,1109,All,"Phospholipid Antibodies (IGM & IGG) Serum Profile (2):PHOSPHOLIPID ANTIBODY IgG,PHOSPHOLIPID ANTIBODY IgM"
 Torch 10,Organ Health,4520,1287,All,"Torch 10 (10):CMV IgG Antibody Serum,CMV IgM Antibody Serum,HSV-1 (Herpes Simplex Virus-1) IgG Antibody,HSV-1 (Herpes Simplex Virus-1) IgM Antibody,HSV-2 (Herpes Simplex Virus-2) IgG antibody,HSV-2 (Herpes Simplex Virus-2) IgM antibody,Rubella (German Measles) Virus IgG Antibody,Rubella (German measles) virus IgM antibody,Toxoplasma-IgG IgG Antibody,Toxoplasma-IgM IgM Antibody"
 Allergy Screening Panel By Immunocap (Gold Standard),Organ Health,4354,1494,All,"Allergy Screening Panel By Immunocap (Gold Standard) (4):Allergy Dog Dander,Allergy Grass Pollen,Allergy Weed Pollen,Allergy Mould"
-Lipid Profile – Advanced Cardiac(P),Organ Health,7600,1499,All,"Lipid Profile – Advanced Cardiac (15):HsCRP High Sensitivity CRP,Cholesterol-Total Serum,HDL Cholesterol Direct,LDL Cholesterol -Direct,Triglycerides Serum,Non - HDL Cholesterol Serum,VLDL,LDL/HDL RATIO,CHOL/HDL RATIO,HDL / LDL Cholesterol Ratio,Apolipoproteins A1 Serum,Apolipoproteins B Serum,Apolipoproteins B/A1 Serum (Apolipoproteins B-A1-B/A1 Ratio),Homocysteine,Lp(a) Lipoprotein(a) Serum,Apolipoproteins B Serum,Apolipoproteins B/A1 Serum (Apolipoproteins B,A1,B/A1 Ratio) RATIO,CHOL/HDL RATIO,HDL / LDL Cholesterol Ratio"
+Lipid Profile Â– Advanced Cardiac(P),Organ Health,7600,1499,All,"Lipid Profile Â– Advanced Cardiac (15):HsCRP High Sensitivity CRP,Cholesterol-Total Serum,HDL Cholesterol Direct,LDL Cholesterol -Direct,Triglycerides Serum,Non - HDL Cholesterol Serum,VLDL,LDL/HDL RATIO,CHOL/HDL RATIO,HDL / LDL Cholesterol Ratio,Apolipoproteins A1 Serum,Apolipoproteins B Serum,Apolipoproteins B/A1 Serum (Apolipoproteins B-A1-B/A1 Ratio),Homocysteine,Lp(a) Lipoprotein(a) Serum,Apolipoproteins B Serum,Apolipoproteins B/A1 Serum (Apolipoproteins B,A1,B/A1 Ratio) RATIO,CHOL/HDL RATIO,HDL / LDL Cholesterol Ratio"
 H1N1 Panel,Organ Health,4760,2400,All,"H1N1 Panel (4):Influenza A,H1N1 Influenza,H3N2 Influenza,Influenza B"
 Myositis Profile-IgG,Organ Health,25650,13300,All,"Myositis Profile-IgG (16):Mi2,MI-2beta,MDA5,SAE1,TIF1,NXP2,SRP,PL7,PL-12,Jo1,EJ,OJ,PMScl 100,PM Scl 75,Ku,Ro52"
 Autoimmune Encephalitis Panel-2,Organ Health,36471,21654,All,"Autoimmune Encephalitis Panel-2 (5):AMPA-GluR1 & R2,GABA B Receptor,VGKC (LGI1,CASPR2),NMDA,DPPX"
@@ -1110,7 +1110,7 @@ Karyotyping,Lab Atoms,4743,2214,All,Karyotyping (1):Karyotyping
 Cytology Reflex to cell block and relevant IHC Body fluid,Lab Atoms,10800,2240,All,Cytology Reflex to cell block and relevant IHC Body fluid (1):Cytology Reflex to cell block and relevant IHC Body fluid
 EBV (EBER) by CISH-histopathological and molecular analysis Tissue / FFPE,Lab Atoms,8640,2240,All,EBV (EBER) by CISH-histopathological and molecular analysis Tissue / FFPE (1):EBV (EBER) by CISH-histopathological and molecular analysis Tissue / FFPE
 Growth Hormone Stimulation Test Clonidine,Lab Atoms,4460,2240,All,Growth Hormone Stimulation Test Clonidine (1):Growth Hormone Stimulation Test Clonidine
-HIV-1 RNA Detection By PCR– Qualitative Test,Lab Atoms,5000,2240,All,HIV-1 RNA Detection By PCR– Qualitative Test (1):HIV-1 RNA Detection By PCR– Qualitative Test
+HIV-1 RNA Detection By PCRÂ– Qualitative Test,Lab Atoms,5000,2240,All,HIV-1 RNA Detection By PCRÂ– Qualitative Test (1):HIV-1 RNA Detection By PCRÂ– Qualitative Test
 HLA B*5701 Genotyping Abacavir Hypersensitivity Blood,Lab Atoms,5000,2240,All,HLA B*5701 Genotyping Abacavir Hypersensitivity Blood (1):HLA B*5701 Genotyping Abacavir Hypersensitivity Blood
 HPV-Human Papilloma Virus DNA Detection And Typing Tissue / biopsy,Lab Atoms,4050,2240,All,HPV-Human Papilloma Virus DNA Detection And Typing Tissue / biopsy (1):HPV-Human Papilloma Virus DNA Detection And Typing Tissue / biopsy
 Vitamin B2 Riboflavin,Lab Atoms,5000,2240,All,Vitamin B2 Riboflavin (1):Vitamin B2 Riboflavin
@@ -1235,7 +1235,7 @@ CD2,Lab Atoms,6210,3080,All,CD2 (1):CD2
 CD64,Lab Atoms,5890,3080,All,CD64 (1):CD64
 Glycosaminoglycan (GAG) Mucopolysaccharides (quantitative),Lab Atoms,5890,3080,All,Glycosaminoglycan (GAG) Mucopolysaccharides (quantitative) (1):Glycosaminoglycan (GAG) Mucopolysaccharides (quantitative)
 IHC Androgen Receptor with interpretation,Lab Atoms,6600,3080,All,IHC Androgen Receptor with interpretation (1):IHC Androgen Receptor with interpretation
-HIV-1 RNA Viral Load By PCR – Quantitative Test,Lab Atoms,10500,3111,All,HIV-1 RNA Viral Load By PCR – Quantitative Test (1):HIV-1 RNA Viral Load By PCR – Quantitative Test
+HIV-1 RNA Viral Load By PCR Â– Quantitative Test,Lab Atoms,10500,3111,All,HIV-1 RNA Viral Load By PCR Â– Quantitative Test (1):HIV-1 RNA Viral Load By PCR Â– Quantitative Test
 "Bacterial Meningitis Profile (5 Antigen), Serum",Lab Atoms,6720,3136,All,"Bacterial Meningitis Profile (5 Antigen), Serum (1):Bacterial Meningitis Profile (5 Antigen), Serum"
 "Serotonin 5-Hydroxy Tryptamine, Urine",Lab Atoms,7000,3136,All,Serotonin 5-Hydroxy Tryptamine/ Urine (1):Serotonin 5-Hydroxy Tryptamine/ Urine
 "Serotonin 5-Hydroxy Tryptamine, Serum",Lab Atoms,5000,3136,All,Serotonin 5-Hydroxy Tryptamine/ Serum (1):Serotonin 5-Hydroxy Tryptamine/ Serum
@@ -1820,20 +1820,3 @@ Biofire Film Array Pneumonia Panel (Lower Respiratory Tract),Lab Atoms,59520,364
 Gene Panel Cancer hotspot,Lab Atoms,120000,36400,All,Gene Panel Cancer hotspot (1):Gene Panel Cancer hotspot
 Gene Panel Clinical exom,Lab Atoms,113400,46900,All,Gene Panel Clinical exom (1):Gene Panel Clinical exom
 Whole Exome Sequencing 50MB(80-100x),Lab Atoms,89290,56000,All,Whole Exome Sequencing 50MB(80-100x) (1):Whole Exome Sequencing 50MB(80-100x)
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
-,,,,,
