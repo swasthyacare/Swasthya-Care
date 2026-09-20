@@ -461,24 +461,22 @@
 });
 
 useEffect(() => {
-    // 2. Fetch what is CURRENTLY in the raw storage right now
     const currentStorage = localStorage.getItem('swasthya_cart_v10');
-    let timestampToSave = Date.now();
+    let existingTimestamp = Date.now(); // Fallback if storage is completely empty
 
     if (currentStorage) {
         try {
             const parsedStorage = JSON.parse(currentStorage);
-            // If the cart items haven't changed, KEEP the original timestamp!
-            if (JSON.stringify(parsedStorage.items) === JSON.stringify(cart)) {
-                timestampToSave = parsedStorage.timestamp || Date.now();
+            // Retain whatever timestamp was already written inside the file
+            if (parsedStorage.timestamp) {
+                existingTimestamp = parsedStorage.timestamp;
             }
         } catch (e) {}
     }
 
-    // 3. Save the consolidated bundle back to storage securely
     const dataToSave = {
         items: cart,
-        timestamp: timestampToSave
+        timestamp: existingTimestamp // Keeps the original clock time safe from refreshes
     };
     localStorage.setItem('swasthya_cart_v10', JSON.stringify(dataToSave));
 }, [cart]);
