@@ -447,14 +447,27 @@
           const [cart, setCart] = useState(() => {
               const savedCart = localStorage.getItem('swasthya_cart_v10');
               if (savedCart) {
-                  try { return JSON.parse(savedCart); } catch(e) {}
-              }
-              return [];
-          });
+                  try {
+            const parsed = JSON.parse(savedData);
+            // Check if the timestamp inside the object is older than 24 hours
+            if (parsed.timestamp && Date.now() - parsed.timestamp > 86400000) {
+                localStorage.removeItem('swasthya_cart_v10'); // Wipes the single key completely
+                return [];
+            }
+            return parsed.items || []; // Returns just the items array to your cart state
+        } catch(e) {}
+    }
+    return [];
+});
 
-          useEffect(() => {
-              localStorage.setItem('swasthya_cart_v10', JSON.stringify(cart));
-          }, [cart]);
+useEffect(() => {
+    // Saves both your items and the current timestamp bundled inside one single key
+    const dataToSave = {
+        items: cart,
+        timestamp: Date.now()
+    };
+    localStorage.setItem('swasthya_cart_v10', JSON.stringify(dataToSave));
+}, [cart]);
 
           const [toastMessage, setToastMessage] = useState('');
           const [packageMembers, setPackageMembers] = useState({});
