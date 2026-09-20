@@ -1040,7 +1040,21 @@ useEffect(() => {
         setMessages(prev => [...prev, { role: 'model', text: timingReply }]);
         return;
     }
+// 4. COMPARISONS, CHOICES & DIFFERENCES
+    // Catches: "compare both", "difference between", "which is better", "which one to choose", "confused between", "pros and cons", "which test", "best package"
+    if (/(compare|comparison|difference|distinction|differentiate|vs|versus|better|best|which one|which should|which test|which package|help me choose|confused between|pros and cons|decide between|how is it different|instead of|recommendation)/i.test(q)) {
+        const compareReply = `### Comparing Health Packages ⚖️\n\nWhen comparing our packages, the main difference is the **depth of clinical profiling**:\n\n* **Swasthya Mitra BASIC**: Routine screening (Blood Sugar, CBC, basic Liver/Kidney).\n* **Swasthya Mitra ADVANCE**: Adds advanced Diabetes (HbA1c) and Iron profiles.\n* **Swasthya Mitra PREMIUM / SUPER**: Adds vital nutritional markers like **Vitamin B12, Vitamin D3**, and Advanced Cardiac profiles.\n\n*Tip: Check the "Parameters" count on each package card to see exactly how many clinical markers are tested.*`;
+        setMessages(prev => [...prev, { role: 'model', text: compareReply }]);
+        return;
+    }
 
+    // 5. FEATURES, BENEFITS, QUALITY & "WHAT IS SPECIAL"
+    // Catches: "what is specical", "why choose you", "about swasthya", "advantages", "who are you", "is it safe", "accreditation", "why swasthya"
+    if (/(special|specical|feature|benefit|advantage|perk|why choose|why should|what is different|unique|about you|about swasthya|who are you|what do you do|quality|accreditation|trust|why you|specialty|highlights|what makes it|best lab|good lab|value|why swasthya|safe|reliable|accurate)/i.test(q)) {
+        const specialReply = `### What Makes Swasthya Care Special? 🌟\n\n1. **Accredited Quality**: All samples are processed in NABL & CAP accredited laboratories.\n2. **Family Discounts**: Our 'Wellness Bundles' automatically apply massive discounts when you add more family members to the same booking.\n3. **Home Collection**: 100% sterile, barcoded sample collection right from your doorstep.\n4. **Smart AI Reports**: Clinically correlated reports delivered digitally with high accuracy.`;
+        setMessages(prev => [...prev, { role: 'model', text: specialReply }]);
+        return;
+    }
     let matchedPkgs = [];
     let clinicalReason = "";
 
