@@ -1001,45 +1001,11 @@ useEffect(() => {
               if (!isSystem) setInputValue('');
               setIsAILoading(true);
               
-              try {
-                  const chatHistory = messages.map(msg => ({
-                      role: msg.role === 'model' ? 'model' : 'user',
-                      parts: [{ text: msg.text }]
-                  }));
-                  chatHistory.push({ role: 'user', parts: [{ text: text }] });
-                  const systemPrompt = `You are Swasthya AI Assistant, a friendly and expert health assistant for a diagnostic lab called 'Swasthya Care'.
-                  Your primary job is to help users select the best health checkup plans based on their symptoms, age, gender, or specific test requirements.
-                  Here is the strict catalog of available packages in JSON format:
-                  ${JSON.stringify(packages)}
-                  Guidelines:
-                  1. ONLY recommend packages from the provided catalog. Do not invent packages or tests.
-                  2. ALWAYS mention the price (₹), total tests, and parameter count when recommending a package.
-                  3. Format your recommendations clearly with pricing and tests.
-                  4. CRITICAL: Whenever you recommend a package, you MUST append the exact tag [ADD:id] (where id is package id) on a new line immediately after describing that package. Example: [ADD:1]`;
-
-                  const payload = {
-                      contents: chatHistory,
-                      systemInstruction: { parts: [{ text: systemPrompt }] }
-                  };
-                  const apiKey = ""; 
-                  const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
-                  const response = await fetch(apiUrl, {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify(payload)
-                  });
-                  const result = await response.json();
-                  const aiReply = result?.candidates?.[0]?.content?.parts?.[0]?.text;
-                  if (aiReply) {
-                      setMessages(prev => [...prev, { role: 'model', text: aiReply }]);
-                  } else {
-                      generateLocalAiResponse(text);
-                  }
-              } catch (error) {
+              // Directly route to Local AI, bypassing Google Gemini completely
+              setTimeout(() => {
                   generateLocalAiResponse(text);
-              } finally {
                   setIsAILoading(false);
-              }
+              }, 600);
           };
 
           const generateLocalAiResponse = (userQuery) => {
