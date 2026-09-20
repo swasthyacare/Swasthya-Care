@@ -533,7 +533,7 @@ useEffect(() => {
                   .then(res => res.text())
                   .then(text => {
                       if (text && text.includes(',')) {
-                          const lines = text.split('\n').filter(l => l.trim().length > 0);
+                          const lines = text.split(/\r?\n/).filter(l => l.trim().length > 0);
                           if (lines.length > 1) {
                               const parsedPkgs = [];
                               const todayStr = new Date().toISOString().split('T')[0];
@@ -832,7 +832,7 @@ useEffect(() => {
           };
 
           const handleCsvImport = (csvText) => {
-              const lines = csvText.split('\n').filter(l => l.trim().length > 0);
+              const lines = csvtext.split(/\r?\n/).filter(l => l.trim().length > 0);
               if (lines.length <= 1) {
                   setAdminFeedback('Please provide valid CSV header and rows.');
                   return;
