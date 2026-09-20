@@ -1022,20 +1022,20 @@ useEffect(() => {
 
     // 1. CONVERSATIONAL & GREETINGS
     if (/^(hi|hello|hey|greetings|namaste|good\s*(morning|evening|afternoon))/i.test(q)) {
-        const welcome = `Hello! I am your **Swasthya AI Health Consultant**. 👋\n\nI can help you find the right diagnostic panel based on:\n* **Symptoms** (e.g., fatigue, dysuria, joint pain, pyrexia)\n* **Specific Organs** (e.g., Liver, Kidney, Cardiovascular, Thyroid)\n* **Checkup Types** (e.g., Full Body, Fitness/Gym, Women's Health, Pre-surgery)\n* **Test Preparation** (e.g., fasting requirements)\n\nWhat clinical symptoms or health tests are you looking into today?`;
+        const welcome = `Hello! I am your **Swasthya AI Health Consultant**. 👋\n\nI can help you find the right diagnostic panel based on:\n* **Symptoms** (e.g., fatigue, dysuria, hair fall, fever)\n* **Specific Organs** (e.g., Liver, Kidney, Cardiovascular, Thyroid)\n* **Checkup Types** (e.g., Full Body, Fitness, Women's/Men's Health, Pre-surgery)\n* **Test Preparation** (e.g., fasting requirements)\n\nWhat clinical symptoms or health tests are you looking into today?`;
         setMessages(prev => [...prev, { role: 'model', text: welcome }]);
         return;
     }
 
     // 2. FASTING & PREPARATION INQUIRIES
-    if (/(fast|eat|empty stomach|water|prepare|preparation|breakfast)/i.test(q)) {
+    if (/(fast|eat|empty stomach|water|prepare|preparation|breakfast|meal)/i.test(q)) {
         const prepReply = `### Clinical Sample Collection Guidelines 📋\n\n* **Fasting Duration**: 10 to 12 hours of overnight fasting is mandatory for Blood Glucose Fasting (BGF) and Lipid Profiles (Cholesterol/Triglycerides).\n* **Water**: You may drink plain water freely—hydration makes phlebotomy (blood drawing) smoother.\n* **Medications**: Consult your physician regarding morning doses of thyroid or antihypertensive medications before the blood draw.\n* **Avoid**: Alcohol, high-fat meals, and strenuous exercise for 24 hours prior to testing.`;
         setMessages(prev => [...prev, { role: 'model', text: prepReply }]);
         return;
     }
 
     // 3. HOME COLLECTION & TIMINGS
-    if (/(home collection|slot|timing|time|when|schedule)/i.test(q)) {
+    if (/(home collection|slot|timing|time|when|schedule|book)/i.test(q)) {
         const timingReply = `### Home Sample Collection Information ⏰\n\n* **Slots Available**: Daily from **06:00 AM to 04:30 PM** in 1-hour windows.\n* **Technicians**: Trained, certified phlebotomists follow 100% sterile barcoded collection procedures.\n* **Notice Period**: Same-day slots require at least **4 hours advance notice**; early morning fasting slots can be scheduled anytime for tomorrow onwards.`;
         setMessages(prev => [...prev, { role: 'model', text: timingReply }]);
         return;
@@ -1058,15 +1058,20 @@ useEffect(() => {
     // 4. MASSIVE CLINICAL TRIAGE DICTIONARY
     // ==========================================
 
-    // Urology / Nephrology / Intimate / STD (Includes clinical terms and colloquial slang)
-    if (/(urine|uti|pelvic|dysuria|hematuria|burning micturition|std|sti|syphilis|genital|groin|intercourse|prostate|urethra|bladder|intimate|front part|private part|back hole|hole|discharge|foul smell)/i.test(q)) {
+    // Urology / Nephrology / Intimate / STD
+    if (/(urine|uti|pelvic|dysuria|hematuria|burning|pee|peeing|std|sti|syphilis|genital|groin|intercourse|prostate|urethra|bladder|intimate|front part|private part|back hole|hole|discharge|foul smell|itching in private)/i.test(q)) {
         matchedPkgs = packages.filter(p => p.name.includes('COMPLETE') || p.name.includes('Gym Health - Female') || p.name.includes('PreOperative'));
-        clinicalReason = "For pelvic discomfort, dysuria (burning sensation), or post-intimacy pain, a **Urine Routine Analysis** is clinically indicated to detect UTIs or bacterial flora. Additionally, screening for infectious markers (HIV, VDRL/RPR) is recommended for overall intimate health safety. Here are our most comprehensive panels covering these diagnostics:";
+        clinicalReason = "For pelvic discomfort, dysuria (burning sensation), or post-intimacy pain, a **Urine Routine Analysis** is clinically indicated to detect UTIs or bacterial flora. Additionally, screening for infectious markers is recommended for overall intimate health safety. Here are our comprehensive panels covering these diagnostics:";
     }
     // Gynecology / Obstetrics / Women's Health
-    else if (/(period|menstrua|amenorrhea|dysmenorrhea|pcod|pcos|pregnancy|maternity|abortion|cervical|hpv|pap smear|vagina|uterus|ovary|menopause|estrogen|female|women)/i.test(q)) {
+    else if (/(period|menstrua|amenorrhea|dysmenorrhea|pcod|pcos|pregnancy|maternity|abortion|cervical|hpv|pap smear|vagina|uterus|ovary|menopause|estrogen|female|women|girl)/i.test(q)) {
         matchedPkgs = packages.filter(p => p.gender === 'Female' || p.name.includes('Cervical'));
-        clinicalReason = "For women's intimate and reproductive health—including menstrual irregularities, PCOS symptoms, or routine oncological screening—we evaluate endocrine hormones (FSH, LH, Prolactin) and perform Cervical PAP Liquid Based Cytology (LBC) with HPV DNA testing.";
+        clinicalReason = "For women's reproductive health—including menstrual irregularities, PCOS symptoms, or routine oncological screening—we evaluate endocrine hormones (FSH, LH, Prolactin) and perform Cervical PAP Liquid Based Cytology (LBC) with HPV DNA testing.";
+    }
+    // Men's Health & Vitality
+    else if (/(erectile|libido|sperm|infertility|testosterone|male hormone|prostate|men|guy|boy)/i.test(q)) {
+        matchedPkgs = packages.filter(p => p.name.includes('Gym Health - Male') || p.name.includes('COMPLETE'));
+        clinicalReason = "For men's health, vitality, and hormonal balance, evaluating Total Testosterone levels alongside systemic markers like Thyroid, Lipid profiles, and Vitamins is crucial to rule out metabolic or endocrine causes.";
     }
     // Rheumatology / Orthopedics (Bone, Joint)
     else if (/(joint|knee|bone|arthralgia|arthritis|osteoarthritis|rheumatoid|osteoporosis|stiffness|gout|hyperuricemia|uric|swelling|back pain|shoulder|calcium|spine|cervical spondylosis)/i.test(q)) {
@@ -1074,42 +1079,57 @@ useEffect(() => {
         clinicalReason = "For arthralgia (joint pain), stiffness, or suspected inflammatory arthritis, markers like Rheumatoid Factor (RA), Uric Acid, Calcium, and systemic acute-phase reactants (ESR, hs-CRP) provide accurate clinical staging.";
     }
     // Endocrinology / Metabolism (Diabetes, Sugar)
-    else if (/(sugar|diabetes|hyperglycemia|hypoglycemia|hba1c|glucose|insulin|polyuria|polydipsia|thirsty|frequent urination|weight loss)/i.test(q)) {
+    else if (/(sugar|diabetes|hyperglycemia|hypoglycemia|hba1c|glucose|insulin|polyuria|polydipsia|thirsty|frequent urination|weight loss|sweet)/i.test(q)) {
         matchedPkgs = packages.filter(p => p.name.includes('ADVANCE') || p.name.includes('PREMIUM'));
         clinicalReason = "For evaluating glycemic control or metabolic syndrome, checking Fasting Blood Glucose alongside HbA1c (glycated hemoglobin for a 3-month glucose average) provides a definitive diagnostic picture.";
     }
     // Cardiology / Lipids (Heart, BP, Cholesterol)
-    else if (/(heart|cardiac|chest pain|angina|palpitation|tachycardia|hypertension|hypotension|bp|blood pressure|cholesterol|dyslipidemia|triglyceride|ldl|breathlessness|dyspnea)/i.test(q)) {
+    else if (/(heart|cardiac|chest pain|angina|palpitation|tachycardia|hypertension|hypotension|bp|blood pressure|cholesterol|dyslipidemia|triglyceride|ldl|breathlessness|dyspnea|stroke|heart attack)/i.test(q)) {
         matchedPkgs = packages.filter(p => p.name.includes('COMPLETE') || p.name.includes('ADVANCE'));
         clinicalReason = "To assess cardiovascular risk or hypertension, comprehensive lipid profiling (HDL, LDL, VLDL) and cardiac risk ratios (ApoA1/ApoB) are essential to detect plaque buildup and vascular health.";
     }
-    // Hepatology / Gastroenterology (Liver, GI)
-    else if (/(liver|jaundice|icterus|hepatitis|cirrhosis|hepatomegaly|ascites|abdominal|dyspepsia|acidity|gas|bloating|fatty liver|sgot|sgpt|bilirubin|stomach|digestion|alcohol)/i.test(q)) {
+    // Hepatology / Gastroenterology (Liver, GI, Digestion)
+    else if (/(liver|jaundice|icterus|hepatitis|cirrhosis|hepatomegaly|ascites|abdominal|dyspepsia|acidity|gas|bloating|fatty liver|sgot|sgpt|bilirubin|stomach|digestion|alcohol|vomiting|puking|nausea|constipation|diarrhea|poop|stool|ulcer|ibs|gut)/i.test(q)) {
         matchedPkgs = packages.filter(p => p.name.includes('ADVANCE') || p.name.includes('PREMIUM'));
-        clinicalReason = "For gastrointestinal distress, suspected hepatic inflammation (fatty liver), or post-alcohol screening, a Complete Liver Function Test (LFT) assessing Bilirubin fractions and transaminases (SGOT/SGPT) is clinically advised.";
+        clinicalReason = "For gastrointestinal distress, nausea, digestion issues, or hepatic inflammation (fatty liver/alcohol impact), a Complete Liver Function Test (LFT) assessing Bilirubin fractions and transaminases (SGOT/SGPT) is clinically advised.";
     }
     // Nephrology (Kidney)
-    else if (/(kidney|renal|creatinine|urea|bun|flank pain|nephropathy|swelling leg)/i.test(q)) {
+    else if (/(kidney|renal|creatinine|urea|bun|flank pain|nephropathy|swelling leg|water retention)/i.test(q)) {
         matchedPkgs = packages.filter(p => p.name.includes('ADVANCE') || p.name.includes('PREMIUM'));
         clinicalReason = "To evaluate renal filtration and kidney health, a Kidney Function Test (KFT) measuring Serum Creatinine, Blood Urea Nitrogen (BUN), and distinct electrolyte balances is required.";
     }
     // Thyroid / Neck
-    else if (/(thyroid|hypothyroidism|hyperthyroidism|goiter|tsh|t3|t4|weight gain|cold intolerance|neck swelling)/i.test(q)) {
+    else if (/(thyroid|hypothyroidism|hyperthyroidism|goiter|tsh|t3|t4|weight gain|cold intolerance|neck swelling|lump)/i.test(q)) {
         matchedPkgs = packages.filter(p => p.name.includes('PREMIUM') || p.name.includes('BASIC'));
         clinicalReason = "For unexplained weight fluctuations, persistent lethargy, or goiter (neck swelling), a Complete Thyroid Profile (Free T3, Free T4, TSH) is necessary to rule out endocrine dysfunction.";
     }
-    // Hematology / Deficiencies (Vitamins, Fatigue, Anemia)
-    else if (/(fatigue|tired|weak|lethargy|neuropathy|tingling|numbness|dizziness|vertigo|hair fall|alopecia|skin|vitamin|b12|d3|pale|anemia|iron|energy)/i.test(q)) {
+    // Dermatology / Hair / Skin
+    else if (/(hair|alopecia|baldness|skin|acne|pimples|pigmentation|eczema|psoriasis|glow|nail|brittle)/i.test(q)) {
+        matchedPkgs = packages.filter(p => p.name.includes('PREMIUM') || p.name.includes('Gym Health - Female'));
+        clinicalReason = "Hair fall, skin pigmentation, or brittle nails are often secondary to internal imbalances. Checking Thyroid hormones, Vitamin B12/D3, Iron, and sex hormones (PCOS screening) helps identify the root cause.";
+    }
+    // Neurology / Stress / Sleep
+    else if (/(stress|headache|migraine|sleep|insomnia|memory|dizziness|vertigo|nervous|tremor|anxiety|depression)/i.test(q)) {
         matchedPkgs = packages.filter(p => p.name.includes('PREMIUM') || p.name.includes('Super'));
-        clinicalReason = "Chronic fatigue, neuropathy (tingling), alopecia (hair fall), or pallor are often linked to critical nutritional deficits. Testing Vitamin B12, 25-Hydroxy Vitamin D3, Iron Studies, and a Complete Hemogram will identify the specific deficiency.";
+        clinicalReason = "Chronic stress, insomnia, or frequent headaches can be exacerbated by nutritional deficits or thyroid issues. We recommend checking Vitamin B12 (vital for nerve health), Vitamin D, and Thyroid function.";
+    }
+    // Allergy / Respiratory
+    else if (/(allergy|allergic|rash|hives|sneezing|dust|pollen|ige|asthma|breathing|lungs|tb|tuberculosis|wheezing)/i.test(q)) {
+        matchedPkgs = packages.filter(p => p.name.includes('Gym Health') || p.name.includes('COMPLETE') || p.name.includes('ADVANCE'));
+        clinicalReason = "For allergic reactions or respiratory distress, checking Total IgE (Immunoglobulin E) indicates systemic allergic responses. A Complete Blood Count (CBC) also identifies eosinophilia or underlying infections.";
+    }
+    // Hematology / Deficiencies (Vitamins, Fatigue, Anemia)
+    else if (/(fatigue|tired|weak|lethargy|neuropathy|tingling|numbness|pale|anemia|iron|energy|vitamin|b12|d3)/i.test(q)) {
+        matchedPkgs = packages.filter(p => p.name.includes('PREMIUM') || p.name.includes('Super'));
+        clinicalReason = "Persistent fatigue, neuropathy (tingling), or pallor are often linked to critical nutritional deficits. Testing Vitamin B12, 25-Hydroxy Vitamin D3, Iron Studies, and a Complete Hemogram will identify the specific deficiency.";
     }
     // Fitness / Sports Medicine (Gym, Muscle)
-    else if (/(gym|workout|fitness|testosterone|protein|muscle|hypertrophy|stamina|bodybuilding|creatine|whey|male)/i.test(q)) {
-        matchedPkgs = packages.filter(p => p.name.includes('Gym Health - Male') || p.name.includes('COMPLETE'));
-        clinicalReason = "For athletes and bodybuilders, monitoring Total Testosterone, IgE, Vitamin D/B12, and renal/hepatic strain (common with high-protein diets and supplements) is essential for peak physiological performance.";
+    else if (/(gym|workout|fitness|protein|muscle|hypertrophy|stamina|bodybuilding|creatine|whey)/i.test(q)) {
+        matchedPkgs = packages.filter(p => p.name.includes('Gym Health'));
+        clinicalReason = "For athletes and bodybuilders, monitoring Testosterone/Hormones, IgE, Vitamin D/B12, and renal/hepatic strain (common with high-protein diets and supplements) is essential for peak physiological performance.";
     }
     // Surgery / Coagulation / Autoimmune (Pre-op, APLA, Lupus)
-    else if (/(surgery|preop|operation|anesthesia|pt inr|coagulation|bleeding|thrombosis|blood group|apla|lupus|miscarriage)/i.test(q)) {
+    else if (/(surgery|preop|operation|anesthesia|pt inr|coagulation|bleeding|thrombosis|blood group|apla|lupus|miscarriage|autoimmune)/i.test(q)) {
         matchedPkgs = packages.filter(p => p.name.includes('PreOperative') || p.name.includes('APLA'));
         clinicalReason = "For pre-surgical anesthesia clearance, bleeding disorders, or investigating recurrent miscarriages, we evaluate Coagulation cascades (PT/INR), Infectious panels, and Antiphospholipid Antibodies (APLA).";
     }
@@ -1118,8 +1138,13 @@ useEffect(() => {
         matchedPkgs = packages.filter(p => p.name.includes('BASIC') || p.name.includes('ADVANCE'));
         clinicalReason = "For pyrexia (fever) of unknown origin or systemic infections, a Complete Blood Count (CBC) and inflammatory markers (ESR) are critical to differentiate between viral and bacterial etiology.";
     }
+    // Geriatric / Senior Citizens
+    else if (/(senior|elderly|old age|grandpa|grandma|weakness in legs|walking|aging)/i.test(q)) {
+        matchedPkgs = packages.filter(p => p.name.includes('COMPLETE') || p.name.includes('Super'));
+        clinicalReason = "For senior citizens, comprehensive preventive screening is crucial to monitor age-related changes in organ function, bone health (Calcium/D3), cardiovascular risk, and nutritional absorption.";
+    }
     // Full Body / Comprehensive Preventive
-    else if (/(full body|complete|annual|master|executive|screening|general checkup|holistic|everything)/i.test(q)) {
+    else if (/(full body|complete|annual|master|executive|screening|general checkup|holistic|everything|routine)/i.test(q)) {
         matchedPkgs = packages.filter(p => p.name.includes('COMPLETE') || p.name.includes('PREMIUM') || p.name.includes('Super'));
         clinicalReason = "For comprehensive executive screening, our master diagnostic panels evaluate all primary physiological systems: Hepatic, Renal, Cardiovascular, Endocrine (Thyroid), Nutritional (Vitamins B12 & D), and Complete Hematology.";
     }
@@ -1163,7 +1188,6 @@ useEffect(() => {
 
     setMessages(prev => [...prev, { role: 'model', text: reply }]);
 };
-
           const toggleCart = (pkgId) => {
               const isAdding = !cart.includes(pkgId);
               if (isAdding) {
