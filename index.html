@@ -461,10 +461,24 @@
 });
 
 useEffect(() => {
-    // Saves both your items and the current timestamp bundled inside one single key
+    // 2. Fetch what is CURRENTLY in the raw storage right now
+    const currentStorage = localStorage.getItem('swasthya_cart_v10');
+    let timestampToSave = Date.now();
+
+    if (currentStorage) {
+        try {
+            const parsedStorage = JSON.parse(currentStorage);
+            // If the cart items haven't changed, KEEP the original timestamp!
+            if (JSON.stringify(parsedStorage.items) === JSON.stringify(cart)) {
+                timestampToSave = parsedStorage.timestamp || Date.now();
+            }
+        } catch (e) {}
+    }
+
+    // 3. Save the consolidated bundle back to storage securely
     const dataToSave = {
         items: cart,
-        timestamp: Date.now()
+        timestamp: timestampToSave
     };
     localStorage.setItem('swasthya_cart_v10', JSON.stringify(dataToSave));
 }, [cart]);
