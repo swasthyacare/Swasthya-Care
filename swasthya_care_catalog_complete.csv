@@ -4,29 +4,29 @@ Prothrombin Time (PT) INR,Organ Health,700,210,All,
 "Apolipoproteins Profile (A1,B,B/A1 Ratio)",Organ Health,1420,237,All,
 Complete Blood Count Advance,Organ Health,650,168,All,
 Fever Panel Basic,Wellness Bundle,500,385,All,
-Fertility Comprehensive Panel,Wellness Bundle,2300,1540,Female,
-PCOD Comprehensive,Wellness Bundle,4000,2800,Female,
-Swasthya Mitra COMPLETE,Wellness Bundle,2500,1400,All,
-Swasthya Mitra PREMIUM,Wellness Bundle,2100,980,All,
-Swasthya Mitra ADVANCE,Wellness Bundle,1300,770,All,
-Swasthya Mitra BASIC,Wellness Bundle,1000,630,All,"Lipid Profile (9):Total Cholesterol,Triglycerides,HDL Cholesterol,LDL Cholesterol,VLDL Cholesterol,Total Cholesterol/HDL Ratio,LDL/HDL Ratio,HDL/LDL Ratio,Non-HDL Cholesterol | Liver Function Test (11):Bilirubin Total,Bilirubin Direct,Bilirubin Indirect,SGOT (AST),SGPT (ALT),SGPT/SGOT Ratio,Alkaline Phosphatase,Total Protein,Albumin,Globulin,Albumin/Globulin Ratio | Kidney Function Test (6):Blood Urea Nitrogen (BUN),Serum Creatinine,BUN/Creatinine Ratio,Uric Acid,Calcium,Phosphorus | Complete Blood Count (14):Hemoglobin,Total RBC,Packed Cell Volume (PCV),Mean Corpuscular Volume (MCV),MCH,MCHC,Total WBC,Differential Count,Platelet Count | Thyroid Profile (3):Triiodothyronine (T3),Thyroxine (T4),Thyroid Stimulating Hormone (TSH) | Blood Sugar & Inflammation (2):Blood Glucose Fasting (BGF),Erythrocyte Sedimentation Rate (ESR)"
-BOH PANEL,Wellness Bundle,6230,5600,All,"Inflammation & Arthritis Markers (4):ASO Titre Quantitative,C-Reactive Protein (CRP),Rheumatoid Factor (RA),Serum Uric Acid | General Blood & ESR (18):Complete Blood Count (CBC - 16 parameters),Erythrocyte Sedimentation Rate (ESR),Blood Glucose Random | Bone Mineral Markers (16):Serum Calcium,Serum Phosphorus,Vitamin D Total,Parathyroid Hormone (Intact PTH)"
-Fertility Screen,Wellness Bundle,2726,1122,Female,"Diabetes Screening (2):Blood Glucose Fasting,HbA1c (Glycated Hemoglobin) | Iron Deficiency Panel (3):Serum Iron,Total Iron Binding Capacity (TIBC),Transferrin Saturation | Comprehensive Profiles (57):Lipid Profile (9),Liver Function Test (11),Kidney Function Test (6),Complete Blood Count (14),Thyroid Profile (3),Electrolytes & ESR (14)"
-FEVER ADVANCE PANEL,Wellness Bundle,1100,490,All,"Infectious Disease Screening (3):HIV I & II Antibodies,HBsAg (Hepatitis B Surface Antigen),Anti-HCV Antibody | Coagulation & Blood Group (3):Prothrombin Time (PT/INR),Bleeding Time & Clotting Time,ABO Blood Group & Rh Typing | Metabolic & Organ Screening (69):Complete Blood Count (14),Kidney Function (BUN, Creatinine, Electrolytes),Random Blood Sugar,Thyroid Screening (TSH),VDRL/RPR test"
-Swasthya Mitra PreOperative Panel,Wellness Bundle,1400,770,All,"Advanced Autoimmune Markers (2):Anti-Cyclic Citrullinated Peptide (Anti-CCP),Rheumatoid Arthritis (RA) Factor Quantitative | Inflammation & Bone Health (46):ASO Titre,C-Reactive Protein (High Sensitivity),Serum Uric Acid,Complete Blood Count (14),Calcium, Magnesium, Phosphorus | HI:General Parameter"
-OA PANEL,Wellness Bundle,1400,840,All,"HPV DNA Assay (10):High Risk HPV Genotypes 16 & 18,Other High Risk HPV Types,Internal Control Validation | Cytology (2):PAP Smear Liquid Based Cytology (LBC),Cellular Adequacy & Microscopic Findings"
-AAA PANEL,Wellness Bundle,1400,770,All,"Vitamins & Nutritional Status (2):Vitamin B12 (Cyanocobalamin),25-Hydroxy Vitamin D3 | Diabetes & Iron Panel (5):Fasting Blood Glucose,HbA1c,Serum Iron,TIBC,Transferrin Saturation | Core Health Panels (73):Lipid Profile,Liver Function Test,Kidney Function Test,Complete Blood Count,Thyroid Profile,Electrolytes"
-Swasthya Mitra Super,Wellness Bundle,2300,1120,All,"Hormonal & Fitness Markers (2):Total Testosterone,Immunoglobulin E (IgE Total) | Vitamins & Complete Organ Profiling (90):Vitamin B12,Vitamin D,Lipid Profile Advanced,Liver Function Test,Kidney Function Test,Complete Blood Count,Thyroid Profile,Urine Routine (14 params)"
-CERVICAL SCREENING Package,Wellness Bundle,2000,1820,Female,"Female Reproductive Hormones (3):Follicle Stimulating Hormone (FSH),Luteinizing Hormone (LH),Prolactin | Comprehensive Panels (95):Vitamin B12 & D,Complete Blood Count,Liver, Kidney & Lipid Profiles,Thyroid Panel,Urine Routine Analysis"
-SWASTHYA Mitra Arthritis Panel Basic,Wellness Bundle,1000,630,All,"Inflammation & Vitamins (4):C-Reactive Protein (CRP),Rheumatoid Factor,Vitamin B12,Vitamin D Total | Advanced Clinical Biochemistry (84):Advanced Lipid Profile,Liver Function Test,Kidney Function Test,Complete Blood Count,Thyroid Function Test,Iron Deficiency Panel"
-SWASTHYA Mitra Arthritis Panel Advance,Wellness Bundle,1500,910,All,"Cardiac & Pancreatic Markers (3):Apolipoprotein A1 & B (ApoA1/ApoB ratio),Serum Amylase,High Sensitivity CRP (hs-CRP) | Full Spectrum Diagnostics (107):Complete Blood Count,Liver, Kidney & Lipid Profiles,Thyroid Profile,Vitamins B12 & D,Hepatitis B Screen,Urine Routine Analysis"
-SWASTHYA Mitra APLA Panel,Wellness Bundle,5000,3500,All,"Antiphospholipid Antibody Suite (5):Beta-2-Glycoprotein 1 (IgG & IgM),Cardiolipin Antibodies (ACL IgG & IgM),Lupus Anticoagulant Confirmatory Assay | Clinical Validation (25):Coagulation Profile,Platelet Function Evaluation"
-Swasthya Mitra Antenatal Profile (Random Sugar),Wellness Bundle,1200,630,All,
-GENEXPERT.COM,Wellness Bundle,3000,3080,All,
-Gym Health Package- Female,Wellness Bundle,2300,1260,Female,
-Gym Health Package-Male,Wellness Bundle,2300,1190,Male,
-Swasthya Mitra Super With PSA,Wellness Bundle,2500,1162,Male,
-Fertility Basic,Wellness Bundle,800,490,All,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+,,,,,
 "14q32.3 By FISH IGH Gene Rearrangement (ALL, NHL), Blood",Lab Atoms,14850,7700,All,14q32.3 By FISH IGH Gene Rearrangement (ALL/ NHL)/ Blood (1):14q32.3 By FISH IGH Gene Rearrangement (ALL/ NHL)/ Blood
 "14q32.3 by FISH IGH gene rearrangement (ALL, NHL), Bone Marrow",Lab Atoms,14850,7700,All,14q32.3 by FISH IGH gene rearrangement (ALL/ NHL)/ Bone Marrow (1):14q32.3 by FISH IGH gene rearrangement (ALL/ NHL)/ Bone Marrow
 "17-Hydroxy Progesterone (17-OHP), Serum",Lab Atoms,1350,1120,All,17-Hydroxy Progesterone (17-OHP)/ Serum (1):17-Hydroxy Progesterone (17-OHP)/ Serum
@@ -1831,34 +1831,3 @@ Lipoprotein Electrophoresis,Lab Atoms,4170,2001,All,Lipoprotein Electrophoresis 
 Lithium,Lab Atoms,710,138,All,Lithium (1):Lithium
 LKM1 By IFA Liver Kidney Microsomes Reflex To End Point Titre,Lab Atoms,3080,1480,All,LKM1 By IFA Liver Kidney Microsomes Reflex To End Point Titre (1):LKM1 By IFA Liver Kidney Microsomes Reflex To End Point Titre
 Lp(a) Lipoprotein(a),Lab Atoms,2260,188,All,Lp(a) Lipoprotein(a) (1):Lp(a) Lipoprotein(a)
-Creatinine Urine 24hr,Lab Atoms,,,,
-Microalbumin / Creatinine Ratio 24hr,Lab Atoms,,,,
-Anti HCV Total Antibody By CMIA Method (CSIR),Lab Atoms,,,,
-Hepatitis B Surface HbsAg By CMIA Method (CSIR),Lab Atoms,,,,
-Myositis Profile-IgG(16 Antigen),Lab Atoms,,,,
-"TB GOLD PLUS, INTERFERON GAMMA RELEASE ASSAY
-(IGRA)",Lab Atoms,,,,
-Fever Panel Basic,Wellness Bundle,,,,
-Fertility  Comprehensive Panel,Wellness Bundle,,,,
-PCOD Comprehensive,Wellness Bundle,,,,
-Swasthya Mitra COMPLETE,Wellness Bundle,,,,
-Swasthya Mitra PREMIUM,Wellness Bundle,,,,
-Swasthya Mitra ADVANCE,Wellness Bundle,,,,
-Swasthya Mitra BASIC,Wellness Bundle,,,,
-BOH PANEL,Wellness Bundle,,,,
-Fertility Screen,Wellness Bundle,,,,
-FEVER ADVANCE PANEL,Wellness Bundle,,,,
-Swasthya Mitra PreOperative Panel,Wellness Bundle,,,,
-OA PANEL,Wellness Bundle,,,,
-AAA PANEL,Wellness Bundle,,,,
-Swasthya Mitra Super,Wellness Bundle,,,,
-CERVICAL SCREENING Package,Wellness Bundle,,,,
-SWASTHYA Mitra Arthritis Panel Basic,Wellness Bundle,,,,
-SWASTHYA Mitra Arthritis Panel Advance,Wellness Bundle,,,,
-SWASTHYA Mitra APLA Panel,Wellness Bundle,,,,
-Swasthya Mitra Antenatal Profile (Random Sugar),Wellness Bundle,,,,
-Gym Health Package-Male,Wellness Bundle,,,,
-Fertility Basic,Wellness Bundle,,,,
-GENEXPERT.COM,Wellness Bundle,,,,
-Gym Health Package- Female,Wellness Bundle,,,,
-Swasthya Mitra Super With PSA,Wellness Bundle,,,,
