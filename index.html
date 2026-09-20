@@ -17,29 +17,6 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyCSnRlGTlLmDIznFFsILPYOFVOh31uWar4",
-    authDomain: "swasthya-care-49dc5.firebaseapp.com",
-    projectId: "swasthya-care-49dc5",
-    storageBucket: "swasthya-care-49dc5.firebasestorage.app",
-    messagingSenderId: "592793351438",
-    appId: "1:592793351438:web:c636c49f01fce53a2e935f",
-    measurementId: "G-DF7080BQTK"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -519,7 +496,7 @@ useEffect(() => {
 
           const [selectedPackageModal, setSelectedPackageModal] = useState(null);
           const [adminModalOpen, setAdminModalOpen] = useState(false);
-          const [adminEmailInput, setAdminEmailInput] = useState('');
+          const [adminPassword, setAdminPassword] = useState('Bapuji&M22kinazar');
           const [adminPasswordInput, setAdminPasswordInput] = useState('');
           const [adminAuthError, setAdminAuthError] = useState(false);
           const [adminCsvInput, setAdminCsvInput] = useState('');
@@ -1315,65 +1292,7 @@ useEffect(() => {
               const targetWhatsappNumber = "917665857270";
               const waLink = `https://wa.me/${targetWhatsappNumber}?text=${encodeURIComponent(msg)}`;
               window.open(waLink, '_blank');
-              // 🚀 ENGINE MODULE: Paste this at the top of your React script (above component loops)
-const sendCleanRowsToGoogleSheet = (primaryBooking, familyMembers, patientAssignments, totalAmount) => {
-    // 🔗 YOUR DEPLOYED APPS SCRIPT WEB APP URL LINK:
-    const webAppUrl = "https://script.google.com/macros/s/AKfycbxx0XnSpb2qPZqJnA-U0v6CL5ZGRPEIL5ZOfrvtzTdbeIbBdMKGjlprw6CKZsprjYozOw/exec";
-
-    const fullAddress = `${primaryBooking.houseNo || ''}, ${primaryBooking.street || ''}, ${primaryBooking.city || ''}, ${primaryBooking.pincode || ''}`;
-const dateTimeSlot = `${primaryBooking.date || ''} (${primaryBooking.timeSlot || ''})`;
-const bookingId = "SW-" + Math.floor(100000 + Math.random() * 900000);
-
-const allRowsData = [];
-
-// 1. Process Primary Member test listings matrix data directly
-const primaryAssignedIds = patientAssignments[primaryBooking.name] || [];
-const primaryTests = primaryAssignedIds.map(id => {
-    const found = packages.find(p => p.id === Number(id));
-    return found ? found.name : id;
-}).join(", ");
-
-allRowsData.push({
-    name: primaryBooking.name || "Primary Member",
-    age: primaryBooking.age || "N/A",
-    sex: primaryBooking.sex || "N/A",
-    assignedTests: primaryTests || "No tests assigned"
-});
-
-// 2. Loop dynamically through your added family member array sub-buckets
-familyMembers.forEach(m => {
-    const memberAssignedIds = patientAssignments[m.id] || [];
-    const memberTests = memberAssignedIds.map(id => {
-        const found = packages.find(p => p.id === Number(id));
-        return found ? found.name : id;
-    }).join(", ");
-
-    allRowsData.push({
-        name: m.name || "Unnamed Family Member",
-        age: m.age || "N/A",
-        sex: m.sex || "N/A",
-        assignedTests: memberTests || "No tests assigned"
-    });
-});
-
-// 3. Dispatch the multi-member data loop payload to your Google Sheet rows using plain text header
-fetch(webAppUrl, {
-    method: "POST",
-    mode: "no-cors",
-    headers: { "Content-Type": "text/plain;charset=utf-8" }, // 💡 Clears local browser sandbox blocking bugs!
-    body: JSON.stringify({
-        bookingId: bookingId,
-        primaryName: primaryBooking.name,
-        contactNo: primaryBooking.contactNo || primaryBooking.phone || "N/A",
-        members: allRowsData, 
-        fullAddress: fullAddress,
-        dateTimeSlot: dateTimeSlot,
-        totalBill: "₹" + totalAmount
-    })
-})
-.then(() => console.log("Google Sheets background synchronization successful!"))
-.catch(err => console.error("Sheets update tracking failure:", err));
-    {setView('success');
+              setView('success');
               setCart([]);
               localStorage.removeItem('swasthya_cart_v10');
               localStorage.removeItem('swasthya_cart_time');
@@ -2329,134 +2248,31 @@ fetch(webAppUrl, {
                   </footer>
 
                   {adminModalOpen && (
-    <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div className="bg-white w-full max-w-sm rounded-2xl shadow-2xl p-6 border border-slate-100">
-            
-            {/* Header Title Row */}
-            <div className="flex items-center space-x-2 text-teal-900 font-bold text-lg mb-4">
-                <Icon name="lock" className="w-5 h-5 text-teal-700" />
-                <h2>Lab Admin Login</h2>
-            </div>
-
-            {/* Main Validation Form Elements */}
-            <form 
-    autoComplete="off"
-    onSubmit={(e) => {
-        e.preventDefault();
-        
-        // Guard check to ensure the Firebase configuration SDK loaded successfully
-        if (typeof auth === 'undefined') {
-            alert("Configuration Error: The Firebase authentication script failed to load in the head element.");
-            return;
-        }
-
-        // 🔒 SECURE CLOUD AUTHENTICATION:
-        // Reads whatever values you physically typed into the screen input boxes.
-        // There are ZERO hardcoded admin emails or passwords saved inside this source code!
-        auth.signInWithEmailAndPassword(adminEmailInput.trim(), adminPasswordInput)
-            .then(() => {
-                setAdminModalOpen(false);
-                setView('admin'); // Unlocks your administrative panel dashboard view!
-                setAdminAuthError(false);
-                
-                // Clear plain text out of browser memory buffers safely
-                setAdminEmailInput('');
-                setAdminPasswordInput('');
-            })
-            .catch((error) => {
-                console.error("Firebase Auth Exception:", error.message);
-                setAdminAuthError(true); // Displays your "Incorrect password" alert message box
-            });
-    }}
->
-    {/* Anti-autofill ghost inputs to prevent aggressive browser mirroring errors */}
-    <input type="text" name="username" style={{ display: 'none' }} autoComplete="new-username" />
-    <input type="password" name="password" style={{ display: 'none' }} autoComplete="new-password" />
-
-    {/* Admin Email Input Field */}
-    <div className="mb-3">
-        <label className="block text-slate-700 text-xs font-bold mb-1">Admin Email Address</label>
-        <input 
-            type="email" 
-            required 
-            value={adminEmailInput} 
-            onChange={e => setAdminEmailInput(e.target.value)} 
-            placeholder="Type your admin email address..." 
-            className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none transition-all focus:border-teal-600 focus:bg-white" 
-        />
-    </div>
-
-    {/* Admin Password Input Field */}
-    <div className="mb-2">
-        <label className="block text-slate-700 text-xs font-bold mb-1">Password</label>
-        <input 
-            type="password" 
-            required 
-            autoComplete="new-password"
-            value={adminPasswordInput} 
-            onChange={e => setAdminPasswordInput(e.target.value)} 
-            placeholder="Type your password..." 
-            className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none transition-all focus:border-teal-600 focus:bg-white" 
-        />
-    </div>
-    
-    {/* ✉️ THE SYSTEM ACTION LINK FOR PASSWORD RESET MAILS: */}
-    <div className="text-right mb-4">
-        <button 
-            type="button" 
-            onClick={() => {
-                if (!adminEmailInput.trim()) {
-                    alert("Please type your registered admin email address into the input box above first so the system knows where to send the link!");
-                    return;
-                }
-                
-                // Triggers Google's secure automated recovery system router
-                auth.sendPasswordResetEmail(adminEmailInput.trim())
-                    .then(() => {
-                        alert(`A secure password reset link has been dispatched to your email inbox: ${adminEmailInput.trim()}\n\nPlease verify your spam/junk folder if it doesn't arrive within 60 seconds.`);
-                    })
-                    .catch((error) => {
-                        alert("System Exception: Mail dispatcher failed. " + error.message);
-                    });
-            }} 
-            className="text-xs text-teal-700 hover:text-teal-900 font-bold hover:underline cursor-pointer transition-colors"
-        >
-            Forgot Password or Need Reset Link?
-        </button>
-    </div>
-    
-    {adminAuthError && (
-        <p className="text-xs text-red-600 font-bold mb-3">
-            Invalid email credentials or incorrect password. Please try again.
-        </p>
-    )}
-    
-    {/* Dialog Interactions Controls Row */}
-    <div className="flex justify-end space-x-2">
-        <button 
-            type="button" 
-            onClick={() => {
-                setAdminModalOpen(false);
-                setAdminEmailInput('');
-                setAdminPasswordInput('');
-                setAdminAuthError(false);
-            }} 
-            className="px-4 py-2 bg-slate-100 text-slate-700 rounded-xl text-xs font-bold cursor-pointer hover:bg-slate-200 transition-colors"
-        >
-            Cancel
-        </button>
-        <button 
-            type="submit" 
-            className="px-5 py-2 bg-teal-900 text-yellow-400 rounded-xl text-xs font-bold cursor-pointer hover:bg-teal-800 shadow transition-all active:scale-95"
-        >
-            Login
-        </button>
-    </div>
-</form>
-
-        </div>
-    </div>
-)}
+                      <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+                          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl">
+                              <h3 className="font-extrabold text-lg mb-4 text-teal-950 flex items-center">
+                                  <Icon name="lock" className="w-5 h-5 mr-2 text-teal-700" /> Lab Admin Login
+                              </h3>
+                              <form onSubmit={(e) => {
+                                  e.preventDefault();
+                                  if (adminPasswordInput === adminPassword) {
+                                      setAdminModalOpen(false);
+                                      setView('admin');
+                                      setAdminAuthError(false);
+                                  } else {
+                                      setAdminAuthError(true);
+                                  }
+                              }}>
+                                  <input type="password" required value={adminPasswordInput} onChange={e => setAdminPasswordInput(e.target.value)} placeholder="Enter password..." className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl mb-3 text-sm outline-none" />
+                                  {adminAuthError && <p className="text-xs text-red-600 font-bold mb-3">Incorrect password.</p>}
+                                  <div className="flex justify-end space-x-2">
+                                      <button type="button" onClick={() => setAdminModalOpen(false)} className="px-4 py-2 bg-slate-100 rounded-xl text-xs font-bold cursor-pointer">Cancel</button>
+                                      <button type="submit" className="px-5 py-2 bg-teal-900 text-yellow-400 rounded-xl text-xs font-bold cursor-pointer">Login</button>
+                                  </div>
+                              </form>
+                          </div>
+                      </div>
+                  )}
 
                   {selectedPackageModal && (
                       <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
