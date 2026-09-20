@@ -444,7 +444,7 @@
           const [bookings, setBookings] = useState([]);
           const [lastBooking, setLastBooking] = useState(null);
           
-          const CART_EXPIRY_LIMIT = 60 * 60 * 1000; 
+          const CART_EXPIRY_LIMIT = 24 * 60 * 60 * 1000; 
 
 const [cart, setCart] = useState(() => {
     const savedCart = localStorage.getItem('swasthya_cart_v10');
@@ -1153,12 +1153,6 @@ useEffect(() => {
                       setTimeout(() => setToastMessage(''), 3500);
                       return;
                   }
-                  const primaryAssigned = primarybooking.PrimaryMemberBucket || [];
-if (primaryAssigned.length === 0) {
-    setToastMessage(`⚠️ Primary Member (${primaryMember.name || 'Primary'}) has no test assigned.`);
-    setTimeout(() => setToastMessage(''), 3500);
-    return; // Halt execution if primary member validation fails
-}
                   const assigned = patientAssignments[m.id] || [];
                   if (assigned.length === 0) {
                       setToastMessage(`⚠️ Family Member ${i+2} (${m.name || 'Unnamed'}) has no test assigned.`);
