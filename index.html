@@ -520,6 +520,10 @@ useEffect(() => {
           const [customTestNameInput, setCustomTestNameInput] = useState({});
           const [selectedParamAtom, setSelectedParamAtom] = useState({});
           const [customParamNameInput, setCustomParamNameInput] = useState({});
+          const [currentPage, setCurrentPage] = useState(1);
+            useEffect(() => {
+    setCurrentPage(1);
+}, [activeCategoryTab, testSearchQuery, selectedBodyPartsFilter, activeBodyPart]);
 
           useEffect(() => {
               const rewardTimer = setInterval(() => {
@@ -1690,6 +1694,7 @@ useEffect(() => {
                                           const isHighlighted = activeBodyPart ? pkg.bodyParts.includes(activeBodyPart) : true;
                                           return matchesBodyFilter && matchesSearchQuery && isHighlighted;
                                       })
+                                      .slice((currentPage - 1) * 50, currentPage * 50)
                                       .map((pkg, index) => {
                                           const isBundle = pkg.dealType === 'Wellness Bundle';
                                           const currentMembers = getMemberCount(pkg.id);
@@ -1782,6 +1787,27 @@ useEffect(() => {
                                           );
                                       })}
                               </div>
+                              {/* Quick Pagination Controls */}
+<div className="flex justify-center items-center mt-8 mb-4 space-x-6">
+    <button 
+        onClick={() => { setCurrentPage(prev => Math.max(prev - 1, 1)); window.scrollTo({ top: 400, behavior: 'smooth' }); }} 
+        disabled={currentPage === 1}
+        className="px-6 py-2.5 rounded-xl font-extrabold text-sm disabled:opacity-30 disabled:cursor-not-allowed bg-teal-900 text-yellow-400 hover:bg-teal-800 transition-colors shadow-md cursor-pointer flex items-center"
+    >
+        <Icon name="arrow" className="w-4 h-4 mr-2 transform rotate-180" /> Prev Page
+    </button>
+    
+    <span className="font-bold text-teal-900 bg-teal-50 px-4 py-2 rounded-lg border border-teal-100">
+        Page {currentPage}
+    </span>
+    
+    <button 
+        onClick={() => { setCurrentPage(prev => prev + 1); window.scrollTo({ top: 400, behavior: 'smooth' }); }} 
+        className="px-6 py-2.5 rounded-xl font-extrabold text-sm bg-teal-900 text-yellow-400 hover:bg-teal-800 transition-colors shadow-md cursor-pointer flex items-center"
+    >
+        Next Page <Icon name="arrow" className="w-4 h-4 ml-2" />
+    </button>
+</div>
 
                               {/* 3D Cylinder / Perspective Ring Slider for Rewards & Recognition */}
                               <div className="mt-28 mb-16">
