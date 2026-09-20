@@ -2271,7 +2271,7 @@ useEffect(() => {
                     try {
                         // 2. Hash your typed password string using SHA-256
                         const inputHash = await hashPasswordSHA256(adminPasswordInput.trim());
-                        const correctHash = "5e7baec6b4fe5efea4b47eb2c6fa5e9987f61c360c184c8cf712ffbcda644f12";
+                        const correctHash = "041de302fbe797647c57afdcdfcb93995f3f442e6b8f62b4d16ee354be4281be";
                         
                         // 3. Routing evaluation match check
                         if (inputHash === correctHash) {
