@@ -444,41 +444,36 @@
           const [bookings, setBookings] = useState([]);
           const [lastBooking, setLastBooking] = useState(null);
           
-          const [cart, setCart] = useState(() => {
-              const savedCart = localStorage.getItem('swasthya_cart_v10');
-              if (savedCart) {
-                  try {
-            const parsed = JSON.parse(savedData);
-            // Check if the timestamp inside the object is older than 24 hours
-            if (parsed.timestamp && Date.now() - parsed.timestamp > 86400000) {
-                localStorage.removeItem('swasthya_cart_v10'); // Wipes the single key completely
-                return [];
+          const CART_EXPIRY_LIMIT = 24 * 60 * 60 * 1000; 
+
+const [cart, setCart] = useState(() => {
+    const savedCart = localStorage.getItem('swasthya_cart_v10');
+    const savedTime = localStorage.getItem('swasthya_cart_time'); // Get the timestamp file
+    
+    if (savedCart && savedTime) {
+        try {
+            // Check if the saved cart is older than 24 hours
+            if (Date.now() - parseInt(savedTime, 10) > CART_EXPIRY_LIMIT) {
+                localStorage.removeItem('swasthya_cart_v10');
+                localStorage.removeItem('swasthya_cart_time');
+                return []; // Cart expired, return empty array
             }
-            return parsed.items || []; // Returns just the items array to your cart state
-        } catch(e) {}
+            return JSON.parse(savedCart); 
+        } catch(e) {
+            return [];
+        }
     }
     return [];
 });
 
 useEffect(() => {
-    const currentStorage = localStorage.getItem('swasthya_cart_v10');
-    let existingTimestamp = Date.now(); // Fallback if storage is completely empty
-
-    if (currentStorage) {
-        try {
-            const parsedStorage = JSON.parse(currentStorage);
-            // Retain whatever timestamp was already written inside the file
-            if (parsedStorage.timestamp) {
-                existingTimestamp = parsedStorage.timestamp;
-            }
-        } catch (e) {}
+    localStorage.setItem('swasthya_cart_v10', JSON.stringify(cart));
+    // If the cart has items, save a new timestamp. If it's empty, remove the timestamp.
+    if (cart.length > 0) {
+        localStorage.setItem('swasthya_cart_time', Date.now().toString());
+    } else {
+        localStorage.removeItem('swasthya_cart_time');
     }
-
-    const dataToSave = {
-        items: cart,
-        timestamp: existingTimestamp // Keeps the original clock time safe from refreshes
-    };
-    localStorage.setItem('swasthya_cart_v10', JSON.stringify(dataToSave));
 }, [cart]);
 
           const [toastMessage, setToastMessage] = useState('');
@@ -1300,6 +1295,7 @@ useEffect(() => {
               setView('success');
               setCart([]);
               localStorage.removeItem('swasthya_cart_v10');
+              localStorage.removeItem('swasthya_cart_time');
               window.scrollTo({ top: 0, behavior: 'smooth' });
           };
 
