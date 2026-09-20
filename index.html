@@ -496,6 +496,7 @@ useEffect(() => {
 
           const [selectedPackageModal, setSelectedPackageModal] = useState(null);
           const [adminModalOpen, setAdminModalOpen] = useState(false);
+          const [adminEmailInput, setAdminEmailInput] = useState('');
           const [adminPasswordInput, setAdminPasswordInput] = useState('');
           const [adminAuthError, setAdminAuthError] = useState(false);
           const [adminCsvInput, setAdminCsvInput] = useState('');
@@ -2258,79 +2259,119 @@ useEffect(() => {
 
             {/* Main Validation Form Elements */}
             <form 
-                autoComplete="off"
-                onSubmit={async (e) => {
-                    e.preventDefault();
-                    
-                    // 1. Secure calculation guard verification check
-                    if (!window.crypto || !window.crypto.subtle) {
-                        alert("Security Exception: Please launch your workspace using 'Live Server' (localhost:5500) to activate cryptographic validations locally.");
-                        return;
-                    }
+    autoComplete="off"
+    onSubmit={(e) => {
+        e.preventDefault();
+        
+        // Guard check to ensure the Firebase configuration SDK loaded successfully
+        if (typeof auth === 'undefined') {
+            alert("Configuration Error: The Firebase authentication script failed to load in the head element.");
+            return;
+        }
 
-                    try {
-                        // 2. Hash your typed password string using SHA-256
-                        const inputHash = await hashPasswordSHA256(adminPasswordInput.trim());
-                        const correctHash = "041de302fbe797647c57afdcdfcb93995f3f442e6b8f62b4d16ee354be4281be";
-                        
-                        // 3. Routing evaluation match check
-                        if (inputHash === correctHash) {
-                            setAdminModalOpen(false);
-                            setView('admin');
-                            setAdminAuthError(false);
-                            setAdminPasswordInput(''); // Wipe clear text credentials safely
-                        } else {
-                            setAdminAuthError(true);
-                        }
-                    } catch (err) {
-                        console.error("Authentication module tracking error:", err);
-                        setAdminAuthError(true);
-                    }
-                }}
-            >
-                {/* Anti-autofill dummy input elements to prevent field replication bugs */}
-                <input type="text" name="username" style={{ display: 'none' }} autoComplete="new-username" />
-                <input type="password" name="password" style={{ display: 'none' }} autoComplete="new-password" />
+        // 🔒 SECURE CLOUD AUTHENTICATION:
+        // Reads whatever values you physically typed into the screen input boxes.
+        // There are ZERO hardcoded admin emails or passwords saved inside this source code!
+        auth.signInWithEmailAndPassword(adminEmailInput.trim(), adminPasswordInput)
+            .then(() => {
+                setAdminModalOpen(false);
+                setView('admin'); // Unlocks your administrative panel dashboard view!
+                setAdminAuthError(false);
+                
+                // Clear plain text out of browser memory buffers safely
+                setAdminEmailInput('');
+                setAdminPasswordInput('');
+            })
+            .catch((error) => {
+                console.error("Firebase Auth Exception:", error.message);
+                setAdminAuthError(true); // Displays your "Incorrect password" alert message box
+            });
+    }}
+>
+    {/* Anti-autofill ghost inputs to prevent aggressive browser mirroring errors */}
+    <input type="text" name="username" style={{ display: 'none' }} autoComplete="new-username" />
+    <input type="password" name="password" style={{ display: 'none' }} autoComplete="new-password" />
 
-                {/* Secure Character Input Element Field */}
-                <input 
-                    type="password" 
-                    required 
-                    autoComplete="new-password"
-                    value={adminPasswordInput} 
-                    onChange={e => setAdminPasswordInput(e.target.value)} 
-                    placeholder="Enter password..." 
-                    className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl mb-3 text-sm outline-none transition-all focus:border-teal-600 focus:bg-white" 
-                />
+    {/* Admin Email Input Field */}
+    <div className="mb-3">
+        <label className="block text-slate-700 text-xs font-bold mb-1">Admin Email Address</label>
+        <input 
+            type="email" 
+            required 
+            value={adminEmailInput} 
+            onChange={e => setAdminEmailInput(e.target.value)} 
+            placeholder="Type your admin email address..." 
+            className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none transition-all focus:border-teal-600 focus:bg-white" 
+        />
+    </div>
+
+    {/* Admin Password Input Field */}
+    <div className="mb-2">
+        <label className="block text-slate-700 text-xs font-bold mb-1">Password</label>
+        <input 
+            type="password" 
+            required 
+            autoComplete="new-password"
+            value={adminPasswordInput} 
+            onChange={e => setAdminPasswordInput(e.target.value)} 
+            placeholder="Type your password..." 
+            className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none transition-all focus:border-teal-600 focus:bg-white" 
+        />
+    </div>
+    
+    {/* ✉️ THE SYSTEM ACTION LINK FOR PASSWORD RESET MAILS: */}
+    <div className="text-right mb-4">
+        <button 
+            type="button" 
+            onClick={() => {
+                if (!adminEmailInput.trim()) {
+                    alert("Please type your registered admin email address into the input box above first so the system knows where to send the link!");
+                    return;
+                }
                 
-                {/* Dynamic Warning Messaging Text Block */}
-                {adminAuthError && (
-                    <p className="text-xs text-red-600 font-bold mb-3 animate-headShake">
-                        Incorrect password. Please try again.
-                    </p>
-                )}
-                
-                {/* Navigation Button Controls Container */}
-                <div className="flex justify-end space-x-2">
-                    <button 
-                        type="button" 
-                        onClick={() => {
-                            setAdminModalOpen(false);
-                            setAdminPasswordInput('');
-                            setAdminAuthError(false);
-                        }} 
-                        className="px-4 py-2 bg-slate-100 text-slate-700 rounded-xl text-xs font-bold cursor-pointer hover:bg-slate-200 transition-colors"
-                    >
-                        Cancel
-                    </button>
-                    <button 
-                        type="submit" 
-                        className="px-5 py-2 bg-teal-900 text-yellow-400 rounded-xl text-xs font-bold cursor-pointer hover:bg-teal-800 shadow transition-all active:scale-95"
-                    >
-                        Login
-                    </button>
-                </div>
-            </form>
+                // Triggers Google's secure automated recovery system router
+                auth.sendPasswordResetEmail(adminEmailInput.trim())
+                    .then(() => {
+                        alert(`A secure password reset link has been dispatched to your email inbox: ${adminEmailInput.trim()}\n\nPlease verify your spam/junk folder if it doesn't arrive within 60 seconds.`);
+                    })
+                    .catch((error) => {
+                        alert("System Exception: Mail dispatcher failed. " + error.message);
+                    });
+            }} 
+            className="text-xs text-teal-700 hover:text-teal-900 font-bold hover:underline cursor-pointer transition-colors"
+        >
+            Forgot Password or Need Reset Link?
+        </button>
+    </div>
+    
+    {adminAuthError && (
+        <p className="text-xs text-red-600 font-bold mb-3">
+            Invalid email credentials or incorrect password. Please try again.
+        </p>
+    )}
+    
+    {/* Dialog Interactions Controls Row */}
+    <div className="flex justify-end space-x-2">
+        <button 
+            type="button" 
+            onClick={() => {
+                setAdminModalOpen(false);
+                setAdminEmailInput('');
+                setAdminPasswordInput('');
+                setAdminAuthError(false);
+            }} 
+            className="px-4 py-2 bg-slate-100 text-slate-700 rounded-xl text-xs font-bold cursor-pointer hover:bg-slate-200 transition-colors"
+        >
+            Cancel
+        </button>
+        <button 
+            type="submit" 
+            className="px-5 py-2 bg-teal-900 text-yellow-400 rounded-xl text-xs font-bold cursor-pointer hover:bg-teal-800 shadow transition-all active:scale-95"
+        >
+            Login
+        </button>
+    </div>
+</form>
 
         </div>
     </div>
