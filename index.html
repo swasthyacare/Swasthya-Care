@@ -2247,128 +2247,94 @@ useEffect(() => {
                   </footer>
 
                   {adminModalOpen && (
-                      <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
-                          <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl">
-                              <h3 className="font-extrabold text-lg mb-4 text-teal-950 flex items-center">
-                                  <Icon name="lock" className="w-5 h-5 mr-2 text-teal-700" /> Lab Admin Login
-                              </h3>
-                              <form onSubmit={async (e) => {
-    e.preventDefault();
-    
-    // 1. Run your typed text through the hashing helper function
-    const inputHash = await hashPasswordSHA256(adminPasswordInput);
-    
-    // 2. This is your vault's saved signature string rule
-    const correctHash = "5e7baec6b4fe5efea4b47eb2c6fa5e9987f61c360c184c8cf712ffbcda644f12";
-    
-    // 3. Evaluate the two hashes against each other
-    if (inputHash === correctHash) {
-        setAdminModalOpen(false);
-        setView('admin');
-        setAdminAuthError(false);
-        setAdminPasswordInput(''); // Clear the typed text out of browser memory
-    } else {
-        setAdminAuthError(true);
-    }
-}}>
-    <input 
-        type="password" 
-        required 
-        value={adminPasswordInput} 
-        onChange={e => setAdminPasswordInput(e.target.value)} 
-        placeholder="Enter password..." 
-        className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl mb-3 text-sm outline-none" 
-    />
-    {adminAuthError && <p className="text-xs text-red-600 font-bold mb-3">Incorrect password.</p>}
-    <div className="flex justify-end space-x-2">
-        <button type="button" onClick={() => setAdminModalOpen(false)} className="px-4 py-2 bg-slate-100 rounded-xl text-xs font-bold cursor-pointer">Cancel</button>
-        <button type="submit" className="px-5 py-2 bg-teal-900 text-yellow-400 rounded-xl text-xs font-bold cursor-pointer">Login</button>
-    </div>
-<form 
-    autoComplete="off"
-    onSubmit={async (e) => {
-        e.preventDefault();
-        
-        // 1. Double check the crypto environment availability
-        if (!window.crypto || !window.crypto.subtle) {
-            alert("Security Error: Your browser is blocking secure calculations. Please use 'Live Server' (localhost) to test this!");
-            return;
-        }
-
-        try {
-            // 2. Compute the clean SHA-256 hash output string
-            const inputHash = await hashPasswordSHA256(adminPasswordInput.trim());
-            const correctHash = "5e7baec6b4fe5efea4b47eb2c6fa5e9987f61c360c184c8cf712ffbcda644f12";
+    <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div className="bg-white w-full max-w-sm rounded-2xl shadow-2xl p-6 border border-slate-100">
             
-            // 3. Complete authentication verification routing
-            if (inputHash === correctHash) {
-                setAdminModalOpen(false);
-                setView('admin');
-                setAdminAuthError(false);
-                setAdminPasswordInput(''); // Clear plain text from memory
-            } else {
-                setAdminAuthError(true);
-            }
-        } catch (err) {
-            console.error("Hashing failed:", err);
-            setAdminAuthError(true);
-        }
-    }}
->
-    {/* Anti-autofill ghost inputs to prevent duplicate mirroring */}
-    <input type="text" name="username" style={{ display: 'none' }} autoComplete="new-username" />
-    <input type="password" name="password" style={{ display: 'none' }} autoComplete="new-password" />
+            {/* Header Title Row */}
+            <div className="flex items-center space-x-2 text-teal-900 font-bold text-lg mb-4">
+                <Icon name="lock" className="w-5 h-5 text-teal-700" />
+                <h2>Lab Admin Login</h2>
+            </div>
 
-    {/* Input Control Box */}
-    <input 
-        type="password" 
-        required 
-        autoComplete="new-password"
-        value={adminPasswordInput} 
-        onChange={e => setAdminPasswordInput(e.target.value)} 
-        placeholder="Enter password..." 
-        className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl mb-3 text-sm outline-none" 
-    />
-    
-    {adminAuthError && (
-        <p className="text-xs text-red-600 font-bold mb-3">
-            Incorrect password.
-        </p>
-    )}
-    
-    {/* Form Control Actions Row */}
-    <div className="flex justify-end space-x-2">
-        <button 
-            type="button" 
-            onClick={() => {
-                setAdminModalOpen(false);
-                setAdminPasswordInput('');
-                setAdminAuthError(false);
-            }} 
-            className="px-4 py-2 bg-slate-100 rounded-xl text-xs font-bold cursor-pointer"
-        >
-            Cancel
-        </button>
-        <button 
-            type="submit" 
-            className="px-5 py-2 bg-teal-900 text-yellow-400 rounded-xl text-xs font-bold cursor-pointer"
-        >
-            Login
-        </button>
+            {/* Main Validation Form Elements */}
+            <form 
+                autoComplete="off"
+                onSubmit={async (e) => {
+                    e.preventDefault();
+                    
+                    // 1. Secure calculation guard verification check
+                    if (!window.crypto || !window.crypto.subtle) {
+                        alert("Security Exception: Please launch your workspace using 'Live Server' (localhost:5500) to activate cryptographic validations locally.");
+                        return;
+                    }
+
+                    try {
+                        // 2. Hash your typed password string using SHA-256
+                        const inputHash = await hashPasswordSHA256(adminPasswordInput.trim());
+                        const correctHash = "5e7baec6b4fe5efea4b47eb2c6fa5e9987f61c360c184c8cf712ffbcda644f12";
+                        
+                        // 3. Routing evaluation match check
+                        if (inputHash === correctHash) {
+                            setAdminModalOpen(false);
+                            setView('admin');
+                            setAdminAuthError(false);
+                            setAdminPasswordInput(''); // Wipe clear text credentials safely
+                        } else {
+                            setAdminAuthError(true);
+                        }
+                    } catch (err) {
+                        console.error("Authentication module tracking error:", err);
+                        setAdminAuthError(true);
+                    }
+                }}
+            >
+                {/* Anti-autofill dummy input elements to prevent field replication bugs */}
+                <input type="text" name="username" style={{ display: 'none' }} autoComplete="new-username" />
+                <input type="password" name="password" style={{ display: 'none' }} autoComplete="new-password" />
+
+                {/* Secure Character Input Element Field */}
+                <input 
+                    type="password" 
+                    required 
+                    autoComplete="new-password"
+                    value={adminPasswordInput} 
+                    onChange={e => setAdminPasswordInput(e.target.value)} 
+                    placeholder="Enter password..." 
+                    className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl mb-3 text-sm outline-none transition-all focus:border-teal-600 focus:bg-white" 
+                />
+                
+                {/* Dynamic Warning Messaging Text Block */}
+                {adminAuthError && (
+                    <p className="text-xs text-red-600 font-bold mb-3 animate-headShake">
+                        Incorrect password. Please try again.
+                    </p>
+                )}
+                
+                {/* Navigation Button Controls Container */}
+                <div className="flex justify-end space-x-2">
+                    <button 
+                        type="button" 
+                        onClick={() => {
+                            setAdminModalOpen(false);
+                            setAdminPasswordInput('');
+                            setAdminAuthError(false);
+                        }} 
+                        className="px-4 py-2 bg-slate-100 text-slate-700 rounded-xl text-xs font-bold cursor-pointer hover:bg-slate-200 transition-colors"
+                    >
+                        Cancel
+                    </button>
+                    <button 
+                        type="submit" 
+                        className="px-5 py-2 bg-teal-900 text-yellow-400 rounded-xl text-xs font-bold cursor-pointer hover:bg-teal-800 shadow transition-all active:scale-95"
+                    >
+                        Login
+                    </button>
+                </div>
+            </form>
+
+        </div>
     </div>
-</form>AdminPasswordInput(e.target.value)} 
-        placeholder="Enter password..." 
-        className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl mb-3 text-sm outline-none" 
-    />
-    {adminAuthError && <p className="text-xs text-red-600 font-bold mb-3">Incorrect password.</p>}
-    <div className="flex justify-end space-x-2">
-        <button type="button" onClick={() => setAdminModalOpen(false)} className="px-4 py-2 bg-slate-100 rounded-xl text-xs font-bold cursor-pointer">Cancel</button>
-        <button type="submit" className="px-5 py-2 bg-teal-900 text-yellow-400 rounded-xl text-xs font-bold cursor-pointer">Login</button>
-    </div>
-</form>
-                          </div>
-                      </div>
-                  )}
+)}
 
                   {selectedPackageModal && (
                       <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
