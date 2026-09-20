@@ -87,7 +87,24 @@
         const catalogGithubCsvUrl = "https://raw.githubusercontent.com/swasthyacare/Swasthya-Care/refs/heads/main/swasthya_care_catalog_complete.csv";
         const bookingGoogleSheetUrl = "https://docs.google.com/spreadsheets/d/1lFkrSc4hMtbj-Wll09Fhvhjy88_fZHzaqtWjyprZIao/edit?usp=sharing";
         const googleFormResponseUrl = "https://docs.google.com/forms/d/e/1FAIpQLSc_3k5J4pFkGwa0UQiWCwnGtkvmKK2ODnnWf4tNYL7v8cfy-g/formResponse";
-
+        const myGithubImages = [
+            "https://raw.githubusercontent.com/swasthyacare/Swasthya-Care/68c04c5b6a9c7c1a957c7333949217fc331fa022/Automation.svg",
+            "https://raw.githubusercontent.com/swasthyacare/Swasthya-Care/68c04c5b6a9c7c1a957c7333949217fc331fa022/Blood%20Sample%20Collection.svg",
+            "https://raw.githubusercontent.com/swasthyacare/Swasthya-Care/68c04c5b6a9c7c1a957c7333949217fc331fa022/Blood%20sample%20machine-2.svg",
+            "https://raw.githubusercontent.com/swasthyacare/Swasthya-Care/68c04c5b6a9c7c1a957c7333949217fc331fa022/Blood%20sample%20machine.svg",
+            "https://raw.githubusercontent.com/swasthyacare/Swasthya-Care/68c04c5b6a9c7c1a957c7333949217fc331fa022/Couple%20Blood%20Sample.svg",
+            "https://raw.githubusercontent.com/swasthyacare/Swasthya-Care/68c04c5b6a9c7c1a957c7333949217fc331fa022/Grandma%20Blood%20Sample.svg",
+            "https://raw.githubusercontent.com/swasthyacare/Swasthya-Care/68c04c5b6a9c7c1a957c7333949217fc331fa022/Kid%20Blood%20Sample.svg",
+            "https://raw.githubusercontent.com/swasthyacare/Swasthya-Care/68c04c5b6a9c7c1a957c7333949217fc331fa022/Lab.svg",
+            "https://raw.githubusercontent.com/swasthyacare/Swasthya-Care/68c04c5b6a9c7c1a957c7333949217fc331fa022/Pregnant%20Women%20Blood%20Sample.svg",
+            "https://raw.githubusercontent.com/swasthyacare/Swasthya-Care/68c04c5b6a9c7c1a957c7333949217fc331fa022/Swasthya%20Mitra%20APLA%20Panel.svg",
+            "https://raw.githubusercontent.com/swasthyacare/Swasthya-Care/68c04c5b6a9c7c1a957c7333949217fc331fa022/Swasthya%20Mitra%20Arthritis%20Panel%20Advance.svg",
+            "https://raw.githubusercontent.com/swasthyacare/Swasthya-Care/68c04c5b6a9c7c1a957c7333949217fc331fa022/Swasthya%20Mitra%20Complete.svg",
+            "https://raw.githubusercontent.com/swasthyacare/Swasthya-Care/68c04c5b6a9c7c1a957c7333949217fc331fa022/Swasthya%20Mitra%20Premium.svg",
+            "https://raw.githubusercontent.com/swasthyacare/Swasthya-Care/68c04c5b6a9c7c1a957c7333949217fc331fa022/Swasthya%20Mitra%20Preoperative%20Panel.svg",
+            "https://raw.githubusercontent.com/swasthyacare/Swasthya-Care/68c04c5b6a9c7c1a957c7333949217fc331fa022/blood%20sample%20Testing.svg",
+            "https://raw.githubusercontent.com/swasthyacare/Swasthya-Care/68c04c5b6a9c7c1a957c7333949217fc331fa022/surprise.svg"
+        ];
         const SafeLogo = ({ src, alt, className, fallbackText, fallbackTagline }) => {
             const [error, setError] = useState(false);
             if (error) {
@@ -527,7 +544,7 @@
                                           bodyParts: ["cardiovascular", "kidney", "blood"],
                                           iconName: "activity",
                                           color: "text-teal-600 bg-teal-50",
-                                          image: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=600&q=80",
+                                          image: myGithubImages[Math.floor(Math.random() * myGithubImages.length)],
                                           detailedParameters: parsedDetailed
                                       });
                                   }
@@ -842,7 +859,7 @@
                               bodyParts: ["cardiovascular", "kidney", "blood"],
                               iconName: "activity",
                               color: "text-teal-600 bg-teal-50",
-                              image: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=600&q=80",
+                              image: myGithubImages[Math.floor(Math.random() * myGithubImages.length)],
                               detailedParameters: parsedDetailed
                           });
                       }
