@@ -2284,39 +2284,79 @@ useEffect(() => {
         <button type="button" onClick={() => setAdminModalOpen(false)} className="px-4 py-2 bg-slate-100 rounded-xl text-xs font-bold cursor-pointer">Cancel</button>
         <button type="submit" className="px-5 py-2 bg-teal-900 text-yellow-400 rounded-xl text-xs font-bold cursor-pointer">Login</button>
     </div>
-</form><form onSubmit={async (e) => {
-    e.preventDefault();
-    
-    let isPasswordCorrect = false;
-    const correctHash = "5e7baec6b4fe5efea4b47eb2c6fa5e9987f61c360c184c8cf712ffbcda644f12";
+<form 
+    autoComplete="off"
+    onSubmit={async (e) => {
+        e.preventDefault();
+        
+        // 1. Double check the crypto environment availability
+        if (!window.crypto || !window.crypto.subtle) {
+            alert("Security Error: Your browser is blocking secure calculations. Please use 'Live Server' (localhost) to test this!");
+            return;
+        }
 
-    // 1. Check if crypto exists natively, or use a basic mathematical fallback
-    if (window.crypto && window.crypto.subtle) {
         try {
-            const inputHash = await hashPasswordSHA256(adminPasswordInput);
+            // 2. Compute the clean SHA-256 hash output string
+            const inputHash = await hashPasswordSHA256(adminPasswordInput.trim());
+            const correctHash = "5e7baec6b4fe5efea4b47eb2c6fa5e9987f61c360c184c8cf712ffbcda644f12";
+            
+            // 3. Complete authentication verification routing
             if (inputHash === correctHash) {
-                isPasswordCorrect = true;
+                setAdminModalOpen(false);
+                setView('admin');
+                setAdminAuthError(false);
+                setAdminPasswordInput(''); // Clear plain text from memory
+            } else {
+                setAdminAuthError(true);
             }
         } catch (err) {
-            console.error("Crypto failed:", err);
+            console.error("Hashing failed:", err);
+            setAdminAuthError(true);
         }
-    } 
-    
-    // 2. Complete authentication routing safely
-    if (isPasswordCorrect) {
-        setAdminModalOpen(false);
-        setView('admin');
-        setAdminAuthError(false);
-        setAdminPasswordInput(''); 
-    } else {
-        setAdminAuthError(true);
-    }
-}}>
+    }}
+>
+    {/* Anti-autofill ghost inputs to prevent duplicate mirroring */}
+    <input type="text" name="username" style={{ display: 'none' }} autoComplete="new-username" />
+    <input type="password" name="password" style={{ display: 'none' }} autoComplete="new-password" />
+
+    {/* Input Control Box */}
     <input 
         type="password" 
         required 
+        autoComplete="new-password"
         value={adminPasswordInput} 
         onChange={e => setAdminPasswordInput(e.target.value)} 
+        placeholder="Enter password..." 
+        className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl mb-3 text-sm outline-none" 
+    />
+    
+    {adminAuthError && (
+        <p className="text-xs text-red-600 font-bold mb-3">
+            Incorrect password.
+        </p>
+    )}
+    
+    {/* Form Control Actions Row */}
+    <div className="flex justify-end space-x-2">
+        <button 
+            type="button" 
+            onClick={() => {
+                setAdminModalOpen(false);
+                setAdminPasswordInput('');
+                setAdminAuthError(false);
+            }} 
+            className="px-4 py-2 bg-slate-100 rounded-xl text-xs font-bold cursor-pointer"
+        >
+            Cancel
+        </button>
+        <button 
+            type="submit" 
+            className="px-5 py-2 bg-teal-900 text-yellow-400 rounded-xl text-xs font-bold cursor-pointer"
+        >
+            Login
+        </button>
+    </div>
+</form>AdminPasswordInput(e.target.value)} 
         placeholder="Enter password..." 
         className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl mb-3 text-sm outline-none" 
     />
