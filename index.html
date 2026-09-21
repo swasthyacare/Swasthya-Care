@@ -20,15 +20,6 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* Hides the scrollbar for the Rewards container but keeps swiping active */
-        #rewards-scroll-container::-webkit-scrollbar { 
-            display: none; 
-        }
-        #rewards-scroll-container {
-            -ms-overflow-style: none;  /* IE and Edge */
-            scrollbar-width: none;  /* Firefox */
-        }
-    </style>
         body { font-family: 'Inter', sans-serif; }
         ::selection {
             background-color: #facc15;
@@ -39,16 +30,44 @@
             color: #022c22;
         }
 
-        body { font-family: 'Inter', sans-serif; } 
-::selection { background-color: #facc15; color: #022c22; } 
-::-moz-selection { background-color: #facc15; color: #022c22; } 
-@keyframes zoomIn { from { transform: scale(0.9); opacity: 0.7; } to { transform: scale(1.1); opacity: 1; } } 
-@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } } 
-@keyframes ping { 0% { transform: scale(1); opacity: 1; } 75%, 100% { transform: scale(1.5); opacity: 0; } }
-
-/* Modern Tile Scroll - Hide Scrollbar */
-#rewards-scroll-container::-webkit-scrollbar { display: none; }
-#rewards-scroll-container { -ms-overflow-style: none; scrollbar-width: none; }
+        @keyframes zoomIn { from { transform: scale(0.9); opacity: 0.7; } to { transform: scale(1.1); opacity: 1; } }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes ping { 0% { transform: scale(1); opacity: 1; } 75%, 100% { transform: scale(1.5); opacity: 0; } }
+        
+        .carousel-3d-scene {
+            perspective: 1400px;
+            width: 100%;
+            height: 380px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .carousel-3d-container {
+            width: 280px;
+            height: 320px;
+            position: absolute;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .carousel-3d-card {
+            position: absolute;
+            width: 280px;
+            height: 320px;
+            left: 0;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #ffffff;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            border: 1px solid rgba(13, 148, 136, 0.2);
+            backface-visibility: hidden;
+            transition: transform 0.5s ease;
+        }
     </style>
 </head>
 <body class="bg-slate-50 font-sans text-slate-800 flex flex-col min-h-screen">
@@ -1865,61 +1884,63 @@ useEffect(() => {
     ) : null;
 })()}
 
-                              {/* Modern Horizontal Tile Scroll for Rewards & Recognition */}
-<div className="mt-28 mb-16 w-full max-w-[1400px] mx-auto overflow-hidden">
-    <h3 className="text-2xl md:text-3xl font-extrabold text-teal-950 text-center mb-2 px-4">Rewards & Recognition</h3>
-    <p className="text-xs md:text-sm text-slate-500 text-center mb-10 px-4">Recognized nationally for clinical excellence and home healthcare delivery</p>
+                              {/* 3D Cylinder / Perspective Ring Slider for Rewards & Recognition */}
+                              <div className="mt-28 mb-16">
+                                  <h3 className="text-2xl md:text-3xl font-extrabold text-teal-950 text-center mb-2">Rewards & Recognition</h3>
+                                  <p className="text-xs text-slate-500 text-center mb-8">Recognized nationally for clinical excellence and home healthcare delivery</p>
+                                  
+                                  <div className="carousel-3d-scene">
+                                      <div className="carousel-3d-container" style={{ transform: `rotateY(${currentRewardIdx * (-360 / rewardsList.length)}deg)` }}>
+                                          {rewardsList.map((reward, rIdx) => {
+                                              const angle = rIdx * (360 / rewardsList.length);
+                                              return (
+                                                  <div 
+                                                      key={rIdx} 
+                                                      className="carousel-3d-card cursor-pointer"
+                                                      style={{ transform: `rotateY(${angle}deg) translateZ(300px)` }}
+                                                      onClick={() => setCurrentRewardIdx(rIdx)}
+                                                  >
+                                                      <div className="h-32 flex items-center justify-center mb-4">
+                                                          <SafeLogo src={reward.img} alt={`Award ${rIdx+1}`} className="max-h-28 object-contain" fallbackText="Award Recipient" fallbackTagline="Diagnostics Excellence" />
+                                                      </div>
+                                                      <p className="text-xs font-extrabold text-teal-950 text-center leading-snug">
+                                                          {reward.text}
+                                                      </p>
+                                                  </div>
+                                              );
+                                          })}
+                                      </div>
+                                  </div>
 
-    {/* The Scrolling Container */}
-    <div 
-        id="rewards-scroll-container"
-        className="flex overflow-x-auto md:justify-center gap-6 md:gap-10 pb-8 px-6 md:px-12 snap-x snap-mandatory scroll-smooth w-full"
-    >
-        {rewardsList?.map((reward, rIdx) => (
-            <div 
-                key={rIdx} 
-                className="snap-center shrink-0 w-[280px] md:w-[320px] flex flex-col items-center justify-center bg-white rounded-3xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 hover:border-teal-200 transition-all duration-300"
-            >
-                <div className="h-40 w-full flex items-center justify-center mb-6">
-                    <SafeLogo 
-                        src={reward?.img} 
-                        alt={`Award ${rIdx+1}`} 
-                        className="max-h-full object-contain drop-shadow-md" 
-                        fallbackText="Award Recipient" 
-                        fallbackTagline="Diagnostics Excellence" 
-                    />
-                </div>
-                <p className="text-sm font-extrabold text-teal-950 text-center leading-relaxed">
-                    {reward?.text}
-                </p>
-            </div>
-        ))}
-    </div>
-
-    {/* Simple Desktop Navigation Buttons (Hidden on mobile) */}
-    {(rewardsList?.length > 3) && (
-        <div className="hidden md:flex justify-center items-center space-x-6 mt-4">
-            <button 
-                onClick={() => {
-                    const el = document.getElementById('rewards-scroll-container');
-                    if (el) el.scrollBy({ left: -350, behavior: 'smooth' });
-                }}
-                className="px-6 py-3 rounded-full font-bold bg-slate-50 text-teal-900 border border-slate-200 hover:bg-teal-100 transition-colors shadow-sm"
-            >
-                &larr; Prev
-            </button>
-            <button 
-                onClick={() => {
-                    const el = document.getElementById('rewards-scroll-container');
-                    if (el) el.scrollBy({ left: 350, behavior: 'smooth' });
-                }}
-                className="px-6 py-3 rounded-full font-bold bg-slate-50 text-teal-900 border border-slate-200 hover:bg-teal-100 transition-colors shadow-sm"
-            >
-                Next &rarr;
-            </button>
-        </div>
-    )}
-</div>
+                                  <div className="flex flex-col items-center mt-6 space-y-4">
+                                      <div className="flex space-x-3">
+                                          <button 
+                                              onClick={() => setCurrentRewardIdx(prev => (prev - 1 + rewardsList.length) % rewardsList.length)}
+                                              className="px-4 py-2 bg-teal-900 text-yellow-400 rounded-xl font-bold text-xs shadow hover:bg-teal-800 cursor-pointer"
+                                          >
+                                              Prev Award
+                                          </button>
+                                          <button 
+                                              onClick={() => setCurrentRewardIdx(prev => (prev + 1) % rewardsList.length)}
+                                              className="px-4 py-2 bg-teal-900 text-yellow-400 rounded-xl font-bold text-xs shadow hover:bg-teal-800 cursor-pointer"
+                                          >
+                                              Next Award
+                                          </button>
+                                      </div>
+                                      <div className="flex space-x-2">
+                                          {rewardsList.map((_, dotIdx) => (
+                                              <button
+                                                  key={dotIdx}
+                                                  onClick={() => setCurrentRewardIdx(dotIdx)}
+                                                  className={`w-3 h-3 rounded-full transition-all cursor-pointer ${currentRewardIdx === dotIdx ? 'bg-teal-700 w-8' : 'bg-slate-300'}`}
+                                                  title={`Go to award ${dotIdx + 1}`}
+                                              />
+                                          ))}
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      )}
 
                       {/* Checkout View */}
                       {view === 'checkout' && (
