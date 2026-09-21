@@ -1,15 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-    <style>
-    /* Hides the scrollbar for the Rewards container but keeps swiping active */
-    #rewards-scroll-container::-webkit-scrollbar { 
-        display: none; 
-    }
-    #rewards-scroll-container {
-        -ms-overflow-style: none;  /* IE and Edge */
-        scrollbar-width: none;  /* Firefox */
-    }
-</style>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,6 +20,15 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        /* Hides the scrollbar for the Rewards container but keeps swiping active */
+        #rewards-scroll-container::-webkit-scrollbar { 
+            display: none; 
+        }
+        #rewards-scroll-container {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+    </style>
         body { font-family: 'Inter', sans-serif; }
         ::selection {
             background-color: #facc15;
