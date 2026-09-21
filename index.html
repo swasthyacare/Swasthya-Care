@@ -1889,15 +1889,15 @@ useEffect(() => {
                                   <h3 className="text-2xl md:text-3xl font-extrabold text-teal-950 text-center mb-2">Rewards & Recognition</h3>
                                   <p className="text-xs text-slate-500 text-center mb-8">Recognized nationally for clinical excellence and home healthcare delivery</p>
                                   
-                                  <div className="carousel-3d-scene">
+                                  <div className="carousel-3d-scene mx-auto h-[320px] md:h-[450px]">
                                       <div className="carousel-3d-container" style={{ transform: `rotateY(${currentRewardIdx * (-360 / rewardsList.length)}deg)` }}>
                                           {rewardsList.map((reward, rIdx) => {
                                               const angle = rIdx * (360 / rewardsList.length);
                                               return (
                                                   <div 
                                                       key={rIdx} 
-                                                      className="carousel-3d-card cursor-pointer"
-                                                      style={{ transform: `rotateY(${angle}deg) translateZ(300px)` }}
+                                                      className="carousel-3d-card cursor-pointer w-[220px] h-[300px] md:w-[320px] md:h-[400px]"
+                                                      style={{ transform: `rotateY(${angle}deg) translateZ(var(--depth, 300px))` }}
                                                       onClick={() => setCurrentRewardIdx(rIdx)}
                                                   >
                                                       <div className="h-32 flex items-center justify-center mb-4">
