@@ -1893,30 +1893,43 @@ useEffect(() => {
                                   <h3 className="text-2xl md:text-3xl font-extrabold text-teal-950 text-center mb-2">Rewards & Recognition</h3>
                                   <p className="text-xs text-slate-500 text-center mb-8">Recognized nationally for clinical excellence and home healthcare delivery</p>
                                   
-                                  <div className="carousel-3d-scene relative">
-    {/* INVISIBLE LEFT CLICK ZONE */}
+                                  <div 
+    className="carousel-3d-scene relative"
+    onTouchStart={e => { window.touchStartX = e.changedTouches[0].screenX; }}
+    onTouchEnd={e => { 
+        const endX = e.changedTouches[0].screenX; 
+        if (window.touchStartX - endX > 40) setCurrentRewardIdx(prev => (prev + 1) % rewardsList.length); // Swiped Left
+        else if (endX - window.touchStartX > 40) setCurrentRewardIdx(prev => (prev - 1 + rewardsList.length) % rewardsList.length); // Swiped Right
+    }}
+>
+    {/* INVISIBLE LEFT CLICK ZONE (Thin on mobile, wide on desktop) */}
     <div 
-        className="absolute left-0 top-0 w-1/3 h-full z-20 cursor-pointer"
+        className="absolute left-0 top-0 w-12 md:w-1/3 h-full z-20 cursor-pointer"
         onClick={() => setCurrentRewardIdx(prev => (prev - 1 + rewardsList.length) % rewardsList.length)}
         title="Previous Award"
     ></div>
 
-    {/* INVISIBLE RIGHT CLICK ZONE */}
+    {/* INVISIBLE RIGHT CLICK ZONE (Thin on mobile, wide on desktop) */}
     <div 
-        className="absolute right-0 top-0 w-1/3 h-full z-20 cursor-pointer"
+        className="absolute right-0 top-0 w-12 md:w-1/3 h-full z-20 cursor-pointer"
         onClick={() => setCurrentRewardIdx(prev => (prev + 1) % rewardsList.length)}
         title="Next Award"
     ></div>
                                       <div className="carousel-3d-container" style={{ transform: `rotateY(${currentRewardIdx * (-360 / rewardsList.length)}deg)` }}>
-                                          {rewardsList.map((reward, rIdx) => {
-                                              const angle = rIdx * (360 / rewardsList.length);
-                                              return (
-                                                  <div 
-                                                      key={rIdx} 
-                                                      className="carousel-3d-card cursor-pointer"
-                                                      style={{ transform: `rotateY(${angle}deg) translateZ(clamp(250px, 30vw, 400px))` }}
-                                                      onClick={() => setCurrentRewardIdx(rIdx)}
-                                                  >
+    {rewardsList.map((reward, rIdx) => {
+        const angle = rIdx * (360 / rewardsList.length);
+        const isActive = rIdx === currentRewardIdx; // Checks if this is the front card
+        return (
+            <div 
+                key={rIdx} 
+                className="carousel-3d-card"
+                style={{ 
+                    transform: `rotateY(${angle}deg) translateZ(clamp(250px, 30vw, 400px))`,
+                    opacity: isActive ? 1 : 0, // Hides the side cards
+                    pointerEvents: isActive ? 'auto' : 'none', // Prevents clicking hidden cards
+                    transition: 'transform 0.5s ease, opacity 0.4s ease' // Smooth fade effect
+                }}
+            >
                                                       <div className="h-32 flex items-center justify-center mb-4">
                                                           <SafeLogo src={reward.img} alt={`Award ${rIdx+1}`} className="max-h-28 object-contain" fallbackText="Award Recipient" fallbackTagline="Diagnostics Excellence" />
                                                       </div>
