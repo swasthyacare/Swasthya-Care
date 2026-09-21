@@ -1,5 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+    <style>
+    /* Hides the scrollbar for the Rewards container but keeps swiping active */
+    #rewards-scroll-container::-webkit-scrollbar { 
+        display: none; 
+    }
+    #rewards-scroll-container {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+</style>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
