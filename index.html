@@ -1885,43 +1885,32 @@ useEffect(() => {
 })()}
 
                               {/* 3D Cylinder / Perspective Ring Slider for Rewards & Recognition */}
-<div className="mt-28 mb-16 w-full overflow-hidden">
-    <h3 className="text-2xl md:text-3xl font-extrabold text-teal-950 text-center mb-2">Rewards & Recognition</h3>
-    <p className="text-xs text-slate-500 text-center mb-8">Recognized nationally for clinical excellence and home healthcare delivery</p>
-    
-    {/* 
-      1. Dynamic Calculation Hook (Put this variable setup at the top of your React component script body):
-      const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 1024;
-      const translateDistance = isDesktop ? '500px' : '300px'; 
-    */}
-    <div className="carousel-3d-scene mx-auto max-w-full lg:max-w-6xl" style={{ height: typeof window !== 'undefined' && window.innerWidth >= 1024 ? '450px' : '320px' }}>
-        <div className="carousel-3d-container" style={{ transform: `rotateY(${currentRewardIdx * (-360 / rewardsList.length)}deg)` }}>
-            {rewardsList.map((reward, rIdx) => {
-                const angle = rIdx * (360 / rewardsList.length);
-                // Adjusting depth perception based on screen size window
-                const desktopView = typeof window !== 'undefined' && window.innerWidth >= 1024;
-                const radiusDepth = desktopView ? '520px' : '300px';
-
-                return (
-                    <div 
-                        key={rIdx} 
-                        className="carousel-3d-card cursor-pointer w-[220px] h-[280px] md:w-[320px] md:h-[400px] p-4 md:p-6 bg-white rounded-2xl shadow-md border border-slate-100"
-                        style={{ transform: `rotateY(${angle}deg) translateZ(${radiusDepth})` }}
-                        onClick={() => setCurrentRewardIdx(rIdx)}
-                    >
-                        {/* Scaled image block layout container */}
-                        <div className="h-32 md:h-44 flex items-center justify-center mb-4">
-                            <SafeLogo src={reward.img} alt={`Award ${rIdx+1}`} className="max-h-24 md:max-h-36 object-contain" fallbackText="Award Recipient" fallbackTagline="Diagnostics Excellence" />
-                        </div>
-                        <p className="text-xs md:text-sm font-extrabold text-teal-950 text-center leading-snug px-2">
-                            {reward.text}
-                        </p>
-                    </div>
-                );
-            })}
-        </div>
-    </div>
-</div>
+                              <div className="mt-28 mb-16">
+                                  <h3 className="text-2xl md:text-3xl font-extrabold text-teal-950 text-center mb-2">Rewards & Recognition</h3>
+                                  <p className="text-xs text-slate-500 text-center mb-8">Recognized nationally for clinical excellence and home healthcare delivery</p>
+                                  
+                                  <div className="carousel-3d-scene">
+                                      <div className="carousel-3d-container" style={{ transform: `rotateY(${currentRewardIdx * (-360 / rewardsList.length)}deg)` }}>
+                                          {rewardsList.map((reward, rIdx) => {
+                                              const angle = rIdx * (360 / rewardsList.length);
+                                              return (
+                                                  <div 
+                                                      key={rIdx} 
+                                                      className="carousel-3d-card cursor-pointer"
+                                                      style={{ transform: `rotateY(${angle}deg) translateZ(300px)` }}
+                                                      onClick={() => setCurrentRewardIdx(rIdx)}
+                                                  >
+                                                      <div className="h-32 flex items-center justify-center mb-4">
+                                                          <SafeLogo src={reward.img} alt={`Award ${rIdx+1}`} className="max-h-28 object-contain" fallbackText="Award Recipient" fallbackTagline="Diagnostics Excellence" />
+                                                      </div>
+                                                      <p className="text-xs font-extrabold text-teal-950 text-center leading-snug">
+                                                          {reward.text}
+                                                      </p>
+                                                  </div>
+                                              );
+                                          })}
+                                      </div>
+                                  </div>
 
                                   <div className="flex flex-col items-center mt-6 space-y-4">
                                       <div className="flex space-x-3">
