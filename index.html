@@ -1895,26 +1895,22 @@ useEffect(() => {
 <div className="mt-28 mb-16 w-full max-w-[1400px] mx-auto overflow-hidden">
     <h3 className="text-2xl md:text-3xl font-extrabold text-teal-950 text-center mb-2 px-4">Rewards & Recognition</h3>
     <p className="text-xs md:text-sm text-slate-500 text-center mb-10 px-4">Recognized nationally for clinical excellence and home healthcare delivery</p>
-    
-    {/* Style block to hide the ugly native scrollbar but keep the scroll functionality */}
-    <style>{`
-        .hide-scroll::-webkit-scrollbar { display: none; }
-        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
-    `}</style>
 
-    {/* The Scrolling Container */}
+    {/* The Scrolling Container (Safeguarded) */}
     <div 
         id="rewards-scroll-container"
-        className="hide-scroll flex overflow-x-auto md:justify-center gap-6 md:gap-10 pb-8 px-6 md:px-12 snap-x snap-mandatory scroll-smooth w-full"
+        className="flex overflow-x-auto md:justify-center gap-6 md:gap-10 pb-8 px-6 md:px-12 snap-x snap-mandatory scroll-smooth w-full"
+        style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }}
     >
-        {rewardsList.map((reward, rIdx) => (
+        {/* Added Optional Chaining (?) to prevent crashes if rewardsList is empty */}
+        {rewardsList?.map((reward, rIdx) => (
             <div 
                 key={rIdx} 
                 className="snap-center shrink-0 w-[280px] md:w-[320px] flex flex-col items-center justify-center bg-white rounded-3xl p-8 shadow-sm border border-slate-100 hover:shadow-xl hover:-translate-y-2 hover:border-teal-200 transition-all duration-300"
             >
                 <div className="h-40 w-full flex items-center justify-center mb-6">
                     <SafeLogo 
-                        src={reward.img} 
+                        src={reward?.img} 
                         alt={`Award ${rIdx+1}`} 
                         className="max-h-full object-contain drop-shadow-md" 
                         fallbackText="Award Recipient" 
@@ -1922,26 +1918,32 @@ useEffect(() => {
                     />
                 </div>
                 <p className="text-sm font-extrabold text-teal-950 text-center leading-relaxed">
-                    {reward.text}
+                    {reward?.text}
                 </p>
             </div>
         ))}
     </div>
 
-    {/* Optional: Simple Desktop Navigation Buttons (hidden on mobile since they can swipe) */}
-    {rewardsList.length > 3 && (
+    {/* Simple Desktop Navigation Buttons (Hidden on mobile) */}
+    {(rewardsList?.length > 3) && (
         <div className="hidden md:flex justify-center items-center space-x-6 mt-4">
             <button 
-                onClick={() => document.getElementById('rewards-scroll-container').scrollBy({ left: -350, behavior: 'smooth' })}
-                className="p-3 rounded-full bg-slate-50 text-teal-900 hover:bg-teal-100 transition-colors shadow-sm"
+                onClick={() => {
+                    const el = document.getElementById('rewards-scroll-container');
+                    if (el) el.scrollBy({ left: -350, behavior: 'smooth' });
+                }}
+                className="px-6 py-3 rounded-full font-bold bg-slate-50 text-teal-900 border border-slate-200 hover:bg-teal-100 transition-colors shadow-sm"
             >
-                <Icon name="arrow" className="w-5 h-5 transform rotate-180" />
+                &larr; Prev
             </button>
             <button 
-                onClick={() => document.getElementById('rewards-scroll-container').scrollBy({ left: 350, behavior: 'smooth' })}
-                className="p-3 rounded-full bg-slate-50 text-teal-900 hover:bg-teal-100 transition-colors shadow-sm"
+                onClick={() => {
+                    const el = document.getElementById('rewards-scroll-container');
+                    if (el) el.scrollBy({ left: 350, behavior: 'smooth' });
+                }}
+                className="px-6 py-3 rounded-full font-bold bg-slate-50 text-teal-900 border border-slate-200 hover:bg-teal-100 transition-colors shadow-sm"
             >
-                <Icon name="arrow" className="w-5 h-5" />
+                Next &rarr;
             </button>
         </div>
     )}
