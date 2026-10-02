@@ -1551,15 +1551,16 @@ useEffect(() => {
                               <div className={`mb-16 bg-white rounded-3xl shadow-sm border border-slate-100 p-8 flex flex-col md:flex-row items-center gap-12 transition-all duration-1000 transform ${loaded ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'}`}>
                                   <div className="w-full md:w-5/12 flex justify-left relative">
                                       <div className="relative w-full md:w-64 h-[480px] bg-slate-50 rounded-2xl border border-slate-200 shadow-inner overflow-hidden flex flex-col items-center justify-center">
-    <iframe 
-        id="api-frame"
-        title="Animated Human Body" 
-        className="w-full h-full border-0"
-        allow="autoplay; fullscreen; xr-spatial-tracking" 
-        allowFullScreen
-        src="https://sketchfab.com/models/6a7a537a71444f6e8201e18a685a013d/embed?autostart=1&ui_infos=0&ui_watermark=0&ui_theme=light&transparent=1"
-    ></iframe>
-</div>
+                                          <iframe 
+                                              id="api-frame"
+                                              title="Animated Human Body" 
+                                              className="w-full h-full border-0"
+                                              allow="autoplay; fullscreen; xr-spatial-tracking" 
+                                              allowFullScreen
+                                              src="https://sketchfab.com/models/6a7a537a71444f6e8201e18a685a013d/embed?autostart=1&ui_infos=0&ui_watermark=0&ui_theme=light&transparent=1"
+                                          ></iframe>
+                                      </div>
+                                  </div> {/* <-- THIS DIV WAS MISSING! */}
 
                                   <div className="w-full md:w-7/12">
                                       <h2 className="text-2xl font-extrabold text-teal-950 mb-2">Physiological Systems Map</h2>
