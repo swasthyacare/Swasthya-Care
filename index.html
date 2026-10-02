@@ -17,6 +17,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script type="text/javascript" src="https://static.sketchfab.com/api/sketchfab-viewer-1.12.1.js"></script>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
@@ -525,6 +526,30 @@ useEffect(() => {
           const [selectedParamAtom, setSelectedParamAtom] = useState({});
           const [customParamNameInput, setCustomParamNameInput] = useState({});
           const [currentPage, setCurrentPage] = useState(1);
+            const [sketchfabApi, setSketchfabApi] = useState(null);
+
+useEffect(() => {
+    if (view === 'menu') {
+        const iframe = document.getElementById('api-frame');
+        if (iframe && window.Sketchfab) {
+            const client = new window.Sketchfab(iframe);
+            client.init('6a7a537a71444f6e8201e18a685a013d', {
+                success: function(api) {
+                    api.start();
+                    api.addEventListener('viewerready', function() {
+                        setSketchfabApi(api);
+                    });
+                },
+                error: function() { console.error('Sketchfab API error'); },
+                autostart: 1,
+                ui_infos: 0,
+                ui_watermark: 0,
+                ui_theme: 'light',
+                transparent: 1
+            });
+        }
+    }
+}, [view]);
             useEffect(() => {
     setCurrentPage(1);
 }, [activeCategoryTab, testSearchQuery, selectedBodyPartsFilter, activeBodyPart]);
@@ -1525,103 +1550,43 @@ useEffect(() => {
                               {/* Physiological Systems Map with Dynamic Pathology Directory Matching */}
                               <div className={`mb-16 bg-white rounded-3xl shadow-sm border border-slate-100 p-8 flex flex-col md:flex-row items-center gap-12 transition-all duration-1000 transform ${loaded ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'}`}>
                                   <div className="w-full md:w-5/12 flex justify-left relative">
-                                      <div className="relative w-64 h-[480px] select-none bg-slate-50 rounded-2xl p-4 border border-slate-200 shadow-inner flex flex-col items-center justify-center">
-                                          <svg viewBox="0 0 300 480" className="w-full h-full drop-shadow-xl relative z-10 pointer-events-none" xmlns="http://www.w3.org/2000/svg">
-                                              <path d="M150 15 C175 15 185 35 185 60 C185 85 170 95 170 110 C200 117 225 133 230 170 L245 310 C248 325 228 325 220 310 L205 190 L198 345 C205 400 200 445 200 455 C200 465 170 465 165 450 L155 315 L145 315 L135 450 C130 465 100 465 100 455 C100 445 95 400 102 345 L95 190 L80 310 C72 325 52 325 55 310 L70 170 C75 133 100 117 130 110 C130 95 115 85 115 60 C115 35 125 15 150 15 Z" fill="#f8fafc" stroke="#cbd5e1" strokeWidth="2" />
-                                              
-                                              {/* Thyroid */}
-                                              {(() => {
-                                                  const isDimmed = selectedBodyPartsFilter.length > 0 && !selectedBodyPartsFilter.includes('thyroid') && activeBodyPart !== 'thyroid';
-                                                  return (
-                                                      <g className={`cursor-pointer transition-all duration-300 pointer-events-auto ${isDimmed ? 'opacity-20 filter blur-[0.5px]' : 'opacity-100'}`} onMouseEnter={() => setActiveBodyPart('thyroid')} onMouseLeave={() => setActiveBodyPart(null)} onClick={() => toggleBodyPartFilter('thyroid')}>
-                                                          <path d="M142 105 Q150 100 158 105 Q162 112 154 116 Q150 112 146 116 Q138 112 142 105 Z" fill="#0284c7" stroke="#0369a1" strokeWidth="1.5" />
-                                                      </g>
-                                                  );
-                                              })()}
-
-                                              {/* Heart */}
-                                              {(() => {
-                                                  const isDimmed = selectedBodyPartsFilter.length > 0 && !selectedBodyPartsFilter.includes('cardiovascular') && activeBodyPart !== 'cardiovascular';
-                                                  return (
-                                                      <g className={`cursor-pointer transition-all duration-300 pointer-events-auto ${isDimmed ? 'opacity-20 filter blur-[0.5px]' : 'opacity-100'}`} onMouseEnter={() => setActiveBodyPart('cardiovascular')} onMouseLeave={() => setActiveBodyPart(null)} onClick={() => toggleBodyPartFilter('cardiovascular')}>
-                                                          <path d="M150 176 C144 168 136 178 140 186 C146 196 150 204 150 204 C150 204 154 196 160 186 C164 178 156 168 150 176 Z" fill="#e11d48" stroke="#be123c" strokeWidth="1.5" />
-                                                      </g>
-                                                  );
-                                              })()}
-
-                                              {/* Kidneys */}
-                                              {(() => {
-                                                  const isDimmed = selectedBodyPartsFilter.length > 0 && !selectedBodyPartsFilter.includes('kidney') && activeBodyPart !== 'kidney';
-                                                  return (
-                                                      <g className={`cursor-pointer transition-all duration-300 pointer-events-auto ${isDimmed ? 'opacity-20 filter blur-[0.5px]' : 'opacity-100'}`} onMouseEnter={() => setActiveBodyPart('kidney')} onMouseLeave={() => setActiveBodyPart(null)} onClick={() => toggleBodyPartFilter('kidney')}>
-                                                          <path d="M124 238 C116 238 112 254 122 260 C128 260 132 248 124 238 Z" fill="#7e22ce" stroke="#581c87" strokeWidth="1.5" />
-                                                          <path d="M176 238 C184 238 188 254 178 260 C172 260 168 248 176 238 Z" fill="#7e22ce" stroke="#581c87" strokeWidth="1.5" />
-                                                      </g>
-                                                  );
-                                              })()}
-
-                                              {/* Liver */}
-                                              {(() => {
-                                                  const isDimmed = selectedBodyPartsFilter.length > 0 && !selectedBodyPartsFilter.includes('liver') && activeBodyPart !== 'liver';
-                                                  return (
-                                                      <g className={`cursor-pointer transition-all duration-300 pointer-events-auto ${isDimmed ? 'opacity-20 filter blur-[0.5px]' : 'opacity-100'}`} onMouseEnter={() => setActiveBodyPart('liver')} onMouseLeave={() => setActiveBodyPart(null)} onClick={() => toggleBodyPartFilter('liver')}>
-                                                          <path d="M138 202 C164 198 178 212 172 228 C158 234 134 220 138 202 Z" fill="#b91c1c" stroke="#991b1b" strokeWidth="1.5" />
-                                                      </g>
-                                                  );
-                                              })()}
-
-                                              {/* Bones / Joints */}
-                                              {(() => {
-                                                  const isDimmed = selectedBodyPartsFilter.length > 0 && !selectedBodyPartsFilter.includes('bone') && activeBodyPart !== 'bone';
-                                                  return (
-                                                      <g className={`cursor-pointer transition-all duration-300 pointer-events-auto ${isDimmed ? 'opacity-20 filter blur-[0.5px]' : 'opacity-100'}`} onMouseEnter={() => setActiveBodyPart('bone')} onMouseLeave={() => setActiveBodyPart(null)} onClick={() => toggleBodyPartFilter('bone')}>
-                                                          <circle cx="88" cy="152" r="6" fill="#f59e0b" stroke="#d97706" strokeWidth="2" />
-                                                          <circle cx="212" cy="152" r="6" fill="#f59e0b" stroke="#d97706" strokeWidth="2" />
-                                                          <circle cx="110" cy="375" r="6" fill="#f59e0b" stroke="#d97706" strokeWidth="2" />
-                                                          <circle cx="190" cy="375" r="6" fill="#f59e0b" stroke="#d97706" strokeWidth="2" />
-                                                      </g>
-                                                  );
-                                              })()}
-
-                                              {/* Reproductive / Hormones */}
-                                              {(() => {
-                                                  const isDimmed = selectedBodyPartsFilter.length > 0 && !selectedBodyPartsFilter.includes('hormone') && activeBodyPart !== 'hormone';
-                                                  return (
-                                                      <g className={`cursor-pointer transition-all duration-300 pointer-events-auto ${isDimmed ? 'opacity-20 filter blur-[0.5px]' : 'opacity-100'}`} onMouseEnter={() => setActiveBodyPart('hormone')} onMouseLeave={() => setActiveBodyPart(null)} onClick={() => toggleBodyPartFilter('hormone')}>
-                                                          <ellipse cx="150" cy="302" rx="12" ry="9" fill="#ec4899" stroke="#db2777" strokeWidth="1.5" />
-                                                      </g>
-                                                  );
-                                              })()}
-                                          </svg>
-                                          {activeBodyPart && (
-                                              <div className="absolute top-4 bg-teal-900 text-white px-3 py-1 rounded-lg shadow text-xs font-bold capitalize z-10">
-                                                  {activeBodyPart.replace('_', ' ')} System
-                                              </div>
-                                          )}
-                                      </div>
-                                  </div>
+                                      <div className="relative w-full md:w-64 h-[480px] bg-slate-50 rounded-2xl border border-slate-200 shadow-inner overflow-hidden flex flex-col items-center justify-center">
+    <iframe 
+        id="api-frame"
+        title="Animated Human Body" 
+        className="w-full h-full border-0"
+        allow="autoplay; fullscreen; xr-spatial-tracking" 
+        allowFullScreen
+        src="https://sketchfab.com/models/6a7a537a71444f6e8201e18a685a013d/embed?autostart=1&ui_infos=0&ui_watermark=0&ui_theme=light&transparent=1"
+    ></iframe>
+</div>
 
                                   <div className="w-full md:w-7/12">
                                       <h2 className="text-2xl font-extrabold text-teal-950 mb-2">Physiological Systems Map</h2>
                                       <p className="text-slate-600 mb-6 text-sm">Select organ systems below to filter packages and related pathology parameters automatically.</p>
                                       
                                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                                          {[
-                                              { id: 'thyroid', label: 'Thyroid Gland' },
-                                              { id: 'cardiovascular', label: 'Cardiovascular (Heart)' },
-                                              { id: 'kidney', label: 'Kidney System' },
-                                              { id: 'liver', label: 'Liver Function' },
-                                              { id: 'bone', label: 'Bone & Joints' },
-                                              { id: 'blood', label: 'Blood Profile (CBC)' },
-                                              { id: 'immune', label: 'Immune & Inflammation' },
-                                              { id: 'metabolic', label: 'Metabolic & Diabetes' },
-                                              { id: 'hormone', label: 'Hormones & Reproductive' }
-                                          ].map(sys => {
-                                              const isSelected = selectedBodyPartsFilter.includes(sys.id);
-                                              return (
-                                                  <button
-                                                      key={sys.id}
-                                                      onClick={() => toggleBodyPartFilter(sys.id)}
+    {[
+        { id: 'thyroid', label: 'Thyroid Gland', annotationIndex: 0 },
+        { id: 'cardiovascular', label: 'Cardiovascular (Heart)', annotationIndex: 1 },
+        { id: 'kidney', label: 'Kidney System', annotationIndex: 2 },
+        { id: 'liver', label: 'Liver Function', annotationIndex: 3 },
+        { id: 'bone', label: 'Bone & Joints', annotationIndex: 4 },
+        { id: 'blood', label: 'Blood Profile (CBC)', annotationIndex: 5 },
+        { id: 'immune', label: 'Immune & Inflammation', annotationIndex: 6 },
+        { id: 'metabolic', label: 'Metabolic & Diabetes', annotationIndex: 7 },
+        { id: 'hormone', label: 'Hormones & Reproductive', annotationIndex: 8 }
+    ].map(sys => {
+        const isSelected = selectedBodyPartsFilter.includes(sys.id);
+        return (
+            <button
+                key={sys.id}
+                onClick={() => {
+                    toggleBodyPartFilter(sys.id);
+                    if (sketchfabApi && sys.annotationIndex !== undefined) {
+                        sketchfabApi.gotoAnnotation(sys.annotationIndex);
+                    }
+                }}
                                                       onMouseEnter={() => setActiveBodyPart(sys.id)}
                                                       onMouseLeave={() => setActiveBodyPart(null)}
                                                       className={`p-3 rounded-xl border text-left transition-all text-xs font-bold flex items-center justify-between cursor-pointer ${
